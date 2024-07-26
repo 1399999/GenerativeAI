@@ -3,11 +3,12 @@
 public static class Program
 {
     private static string regexExpression = @"\d.\d";
+    private static string regexExpression2 = @"\d\d.\d\d";
 
     private static void Main(string[] args)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("======================= Main Commit 3 =======================\n");
+        Console.WriteLine("======================= Main Commit 4 =======================\n");
         Console.ForegroundColor = ConsoleColor.White;
 
         var validationOutput = Validate();
@@ -29,60 +30,69 @@ public static class Program
         Console.Write("Enter a seed for the program: ");
         string? seed = Console.ReadLine();
 
+        InputEnum inputEnum = (InputEnum)int.Parse(seed.Split('.')[0]);
+        OutputEnum outputEnum = (OutputEnum)int.Parse(seed.Split('.')[1]);
+
         WriteLineDebug($"Seed: {seed}");
 
         if (seed == null)
         {
-            WriteLineError("The input is null.");
+            WriteLineError("The seed is null.");
 
             return (false, seed);
         }
 
-        if (!new Regex(regexExpression).IsMatch(seed))
+        if (!new Regex(regexExpression).IsMatch(seed) && !new Regex(regexExpression2).IsMatch(seed))
         {
-            WriteLineError("The input is in an incorrect format.");
+            WriteLineError("The seed is in an incorrect format.");
 
             return (false, seed);
         }
 
-        Console.Write("\nEnter an input path for the program: ");
-        string? input = Console.ReadLine();
-
-        WriteLineDebug($"Input File: {input}");
-        CentralModel.InputFile = input;
-
-        if (input == null)
+        if (inputEnum == InputEnum.CVFile)
         {
-            WriteLineError("The input file path is null.");
+            Console.Write("\nEnter an input path for the program: ");
+            string? inputFile = Console.ReadLine();
 
-            return (false, input);
+            WriteLineDebug($"Input File: {inputFile}");
+            CentralModel.InputFile = inputFile;
+
+            if (inputFile == null)
+            {
+                WriteLineError("The input file path is null.");
+
+                return (false, inputFile);
+            }
+
+            if (!File.Exists(inputFile))
+            {
+                WriteLineError("The input file does not exist.");
+
+                return (false, inputFile);
+            }
         }
 
-        if (!File.Exists(input))
+        if (outputEnum == OutputEnum.CVFile)
         {
-            WriteLineError("The input file does not exist.");
+            Console.Write("\nEnter an output path for the program: ");
+            string? input = Console.ReadLine();
 
-            return (false, input);
-        }
+            WriteLineDebug($"Output File: {input}");
+            CentralModel.OutputFile = input;
 
-        Console.Write("\nEnter an output path for the program: ");
-        input = Console.ReadLine();
+            if (input == null)
+            {
+                WriteLineError("The output file path is null.");
 
-        WriteLineDebug($"Output File: {input}");
-        CentralModel.OutputFile = input;
+                return (false, input);
+            }
 
-        if (input == null)
-        {
-            WriteLineError("The output file path is null.");
+            if (File.Exists(input))
+            {
+                WriteLineError("The output file already exists.");
 
-            return (false, input);
-        }
-
-        if (File.Exists(input))
-        {
-            WriteLineError("The output file already exists.");
-
-            return (false, input);
+                return (false, input);
+            }
         }
 
         return (true, seed);
@@ -96,10 +106,7 @@ public static class Program
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public static void WriteLineError(string message)
-    {
-        WriteError($"{message}\n");
-    }
+    public static void WriteLineError(string message) => WriteError($"{message}\n");
 
     public static void WriteDebug(string message)
     {
@@ -118,6 +125,9 @@ public static class Program
 
     public static void WriteLineDebug(string message)
     {
-        WriteDebug($"{message}\n");
+        if (CentralModel.Debug)
+        {
+            WriteDebug($"{message}\n");
+        }
     }
 }

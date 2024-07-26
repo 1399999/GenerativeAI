@@ -96,11 +96,27 @@ public class SeedNavigator
             };
         }
 
+        else if (options.Input == InputEnum.CVCamera)
+        {
+            return new List<string>()
+            {
+                "# Start video capture.",
+                "cam = cv2.VideoCapture(0)",
+                "",
+                "# Get the current frame.",
+                "ret, frame = cam.read()",
+                "",
+                "if (not ret):",
+                "\tprint(\'Python error: The camera reader failed.\')",
+            };
+        }
+
         return new List<string>();
     }
 
     public static List<string> AddOutputFunctionality(Options options)
     {
+        // Not currently compatible with InputEnum.CVCamera.
         if (options.Output == OutputEnum.CVFile)
         {
             return new List<string>()
@@ -117,16 +133,6 @@ public class SeedNavigator
     {
         File.WriteAllLines(Options.FilePath, list);
 
-        //Process process = new();
-        //ProcessStartInfo startInfo = new ProcessStartInfo();
-        //startInfo.WindowStyle = ProcessWindowStyle.Normal;
-        //startInfo.FileName = "cmd.exe";
-        //startInfo
-        ////startInfo.Arguments = $"python {Options.FilePath}";
-        //process.StartInfo = startInfo;
-        //process.Start();
         Process.Start("python.exe", Options.FilePath);
-
-        //Console.WriteLine(process.StandardOutput);
     }
 }
