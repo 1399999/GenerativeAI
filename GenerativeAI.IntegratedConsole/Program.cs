@@ -13,9 +13,9 @@ public static class Program
 
         var validationOutput = Validate();
 
-        if (validationOutput.IsValid)
+        if (validationOutput)
         {
-            int[] vectors = validationOutput.Input.Split('.').StringToIntArray();
+            int[] vectors = CentralModel.Seed.Split('.').StringToIntArray();
             SeedNavigator.Navigate(vectors);
         }
 
@@ -25,28 +25,15 @@ public static class Program
     }
 
     // (bool IsValid, string? Input) is a tuple.
-    public static (bool IsValid, string Input) Validate()
+    public static bool Validate()
     {
-        Console.Write("Enter a seed for the program: ");
-        string? seed = Console.ReadLine();
 
-        InputEnum inputEnum = (InputEnum)int.Parse(seed.Split('.')[0]);
-        OutputEnum outputEnum = (OutputEnum)int.Parse(seed.Split('.')[1]);
+        InputEnum inputEnum = (InputEnum)int.Parse(CentralModel.Seed.Split('.')[0]);
+        OutputEnum outputEnum = (OutputEnum)int.Parse(CentralModel.Seed.Split('.')[1]);
 
-        WriteLineDebug($"Seed: {seed}");
-
-        if (seed == null)
+        if (!ValidateSeed())
         {
-            WriteLineError("The seed is null.");
-
-            return (false, seed);
-        }
-
-        if (!new Regex(regexExpression).IsMatch(seed) && !new Regex(regexExpression2).IsMatch(seed))
-        {
-            WriteLineError("The seed is in an incorrect format.");
-
-            return (false, seed);
+            return false;
         }
 
         if (inputEnum == InputEnum.CVFile)
@@ -61,14 +48,14 @@ public static class Program
             {
                 WriteLineError("The input file path is null.");
 
-                return (false, inputFile);
+                return false;
             }
 
             if (!File.Exists(inputFile))
             {
                 WriteLineError("The input file does not exist.");
 
-                return (false, inputFile);
+                return false;
             }
         }
 
@@ -84,18 +71,46 @@ public static class Program
             {
                 WriteLineError("The output file path is null.");
 
-                return (false, input);
+                return false;
             }
 
             if (File.Exists(input))
             {
                 WriteLineError("The output file already exists.");
 
-                return (false, input);
+                return false;
             }
         }
 
-        return (true, seed);
+        return true;
+    }
+
+    private static bool ValidateSeed()
+    {
+        Console.Write("Enter a seed for the program: ");
+        string seed = Console.ReadLine();
+        CentralModel.Seed = seed;
+
+        InputEnum inputEnum = (InputEnum)int.Parse(seed.Split('.')[0]);
+        OutputEnum outputEnum = (OutputEnum)int.Parse(seed.Split('.')[1]);
+
+        WriteLineDebug($"Seed: {seed}");
+
+        if (seed == null)
+        {
+            WriteLineError("The seed is null.");
+
+            return false;
+        }
+
+        if (!new Regex(regexExpression).IsMatch(seed) && !new Regex(regexExpression2).IsMatch(seed))
+        {
+            WriteLineError("The seed is in an incorrect format.");
+
+            return false;
+        }
+
+        return true;
     }
 
     public static void WriteError(string message)

@@ -61,7 +61,7 @@ public class SeedNavigator
 
         bool openCVImported = false;
 
-        if (options.Input == InputEnum.CVFile && !openCVImported)
+        if ((options.Input == InputEnum.CVFile || options.Input == InputEnum.CVCamera) && !openCVImported)
         {
             openCVImported = true;
 
@@ -72,7 +72,7 @@ public class SeedNavigator
             };
         }
 
-        if (options.Output == OutputEnum.CVFile && !openCVImported)
+        if ((options.Output == OutputEnum.CVFile || options.Output == OutputEnum.CVCameraWindow) && !openCVImported)
         {
             openCVImported = true;
 
@@ -108,6 +108,10 @@ public class SeedNavigator
                 "",
                 "if (not ret):",
                 "\tprint(\'Python error: The camera reader failed.\')",
+                "",
+                "# This names the window so we can reference it.",
+                "cv2.namedWindow(winname = 'my_drawing')",
+                "",
             };
         }
 
@@ -123,6 +127,28 @@ public class SeedNavigator
             {
                 $"cv2.imwrite(\'{CentralModel.OutputFile.ToOpenCVFileFormat()}\', img)",
                 "",
+            };
+        }
+
+        else if (options.Output == OutputEnum.CVCameraWindow)
+        {
+            return new List<string>()
+            {
+                "# Runs forever until we break with Esc key on keyboard.",
+                "while True: ",
+                "\t",
+                "\t# Get the current frame.",
+                "\tret, frame = cam.read()",
+                "\t",
+                "\t# Shows the image window.",
+                "\tcv2.imshow('my_drawing', frame)",
+                "\t",
+                "\t# Breaks when escape key (is int \"27\") is hit after waiting 20 seconds.",
+                $"\tif cv2.waitKey(20) & 0xFF == {CentralModel.EscapeCharInt}:",
+                "\t\tbreak",
+                "",
+                "# Once script is done, close all windows (just in case you have multiple windows called).",
+                "cv2.destroyAllWindows()",
             };
         }
 
