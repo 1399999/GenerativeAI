@@ -1,4 +1,4 @@
-﻿namespace GenerativeAI.IntegratedConsole.Functionality;
+﻿namespace GenerativeAI.IntegratedConsole;
 
 public class Options
 {

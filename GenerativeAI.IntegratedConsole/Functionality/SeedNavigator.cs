@@ -61,7 +61,7 @@ public class SeedNavigator
 
         bool openCVImported = false;
 
-        if ((options.Input == InputEnum.CVFile || options.Input == InputEnum.CVCamera) && !openCVImported)
+        if ((options.Input == InputEnum.CVFile || options.Input == InputEnum.CVCamera || options.Input == InputEnum.CVMultipleFiles) && !openCVImported)
         {
             openCVImported = true;
 
@@ -88,17 +88,39 @@ public class SeedNavigator
 
     public static List<string> AddInputFunctionality(Options options)
     {
+        List<string> output = new List<string>();
+
+        int warningTracker = SystemModel.Variables.Count;
+
         if (options.Input == InputEnum.CVFile)
         {
-            return new List<string>()
+            SystemModel.Variables.Add(new Variable() 
+            { 
+                Name = "img",
+                Type = VariableType.InputImg,
+            });
+
+            output = new List<string>()
             {
-                $"img = cv2.imread(\'{CentralModel.InputFile.ToOpenCVFileFormat()}\')",
+                $"img = cv2.imread(\'{InputModel.InputFile.ToOpenCVFileFormat()}\')",
             };
         }
 
         else if (options.Input == InputEnum.CVCamera)
         {
-            return new List<string>()
+            SystemModel.Variables.Add(new Variable()
+            {
+                Name = "cam",
+                Type = VariableType.InputDriver,
+            });
+
+            SystemModel.Variables.Add(new Variable()
+            {
+                Name = "ret",
+                Type = VariableType.Bool,
+            });
+
+            output = new List<string>()
             {
                 "# Start video capture.",
                 "cam = cv2.VideoCapture(0)",
@@ -115,7 +137,26 @@ public class SeedNavigator
             };
         }
 
-        return new List<string>();
+        else if (options.Input == InputEnum.CVMultipleFiles)
+        {
+            for (int i = 0; i < InputModel.InputFiles.Length; i++)
+            {
+                SystemModel.Variables.Add(new Variable()
+                {
+                    Name = $"img{i}",
+                    Type = VariableType.InputImg,
+                });
+
+                output.Add($"img{i} = cv2.imread(\'{InputModel.InputFiles[i].ToOpenCVFileFormat()}\')");
+            }
+        }
+
+        if (warningTracker == SystemModel.Variables.Count)
+        {
+            Program.WriteLineWarning("The number of variables has not increased when completing the input section.");
+        }
+
+        return output;
     }
 
     public static List<string> AddOutputFunctionality(Options options)
@@ -125,7 +166,7 @@ public class SeedNavigator
         {
             return new List<string>()
             {
-                $"cv2.imwrite(\'{CentralModel.OutputFile.ToOpenCVFileFormat()}\', img)",
+                $"cv2.imwrite(\'{InputModel.OutputFile.ToOpenCVFileFormat()}\', {SystemModel.Variables[0].Name})",
                 "",
             };
         }
@@ -144,7 +185,7 @@ public class SeedNavigator
                 "\tcv2.imshow('my_drawing', frame)",
                 "\t",
                 "\t# Breaks when escape key (is int \"27\") is hit after waiting 20 seconds.",
-                $"\tif cv2.waitKey(20) & 0xFF == {CentralModel.EscapeCharInt}:",
+                $"\tif cv2.waitKey(20) & 0xFF == {InputModel.EscapeCharInt}:",
                 "\t\tbreak",
                 "",
                 "# Once script is done, close all windows (just in case you have multiple windows called).",

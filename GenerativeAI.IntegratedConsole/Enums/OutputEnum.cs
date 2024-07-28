@@ -2,6 +2,6 @@
 
 public enum OutputEnum
 {
-    CVFile = 00, // Using OpenCV.
-    CVCameraWindow = 01, // Using OpenCV.
+    CVFile = 0, // Using OpenCV.
+    CVCameraWindow = 1, // Using OpenCV.
 }

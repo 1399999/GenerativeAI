@@ -8,14 +8,14 @@ public static class Program
     private static void Main(string[] args)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("======================= Main Commit 4 =======================\n");
+        Console.WriteLine("======================= Main Commit 6 =======================\n");
         Console.ForegroundColor = ConsoleColor.White;
 
         var validationOutput = Validate();
 
         if (validationOutput)
         {
-            int[] vectors = CentralModel.Seed.Split('.').StringToIntArray();
+            int[] vectors = SystemModel.Seed.Split('.').StringToIntArray();
             SeedNavigator.Navigate(vectors);
         }
 
@@ -27,59 +27,27 @@ public static class Program
     // (bool IsValid, string? Input) is a tuple.
     public static bool Validate()
     {
-
-        InputEnum inputEnum = (InputEnum)int.Parse(CentralModel.Seed.Split('.')[0]);
-        OutputEnum outputEnum = (OutputEnum)int.Parse(CentralModel.Seed.Split('.')[1]);
-
         if (!ValidateSeed())
         {
             return false;
         }
 
-        if (inputEnum == InputEnum.CVFile)
+        InputEnum inputEnum = (InputEnum)int.Parse(SystemModel.Seed.Split('.')[0]);
+        OutputEnum outputEnum = (OutputEnum)int.Parse(SystemModel.Seed.Split('.')[1]);
+
+        if (inputEnum == InputEnum.CVFile && !ValidateInputFile())
         {
-            Console.Write("\nEnter an input path for the program: ");
-            string? inputFile = Console.ReadLine();
-
-            WriteLineDebug($"Input File: {inputFile}");
-            CentralModel.InputFile = inputFile;
-
-            if (inputFile == null)
-            {
-                WriteLineError("The input file path is null.");
-
-                return false;
-            }
-
-            if (!File.Exists(inputFile))
-            {
-                WriteLineError("The input file does not exist.");
-
-                return false;
-            }
+            return false;
         }
 
-        if (outputEnum == OutputEnum.CVFile)
+        if (inputEnum == InputEnum.CVMultipleFiles && !ValidateInputFiles())
         {
-            Console.Write("\nEnter an output path for the program: ");
-            string? input = Console.ReadLine();
+            return false;
+        }
 
-            WriteLineDebug($"Output File: {input}");
-            CentralModel.OutputFile = input;
-
-            if (input == null)
-            {
-                WriteLineError("The output file path is null.");
-
-                return false;
-            }
-
-            if (File.Exists(input))
-            {
-                WriteLineError("The output file already exists.");
-
-                return false;
-            }
+        if (outputEnum == OutputEnum.CVFile && !ValidateOutputFile())
+        {
+            return false;
         }
 
         return true;
@@ -89,10 +57,7 @@ public static class Program
     {
         Console.Write("Enter a seed for the program: ");
         string seed = Console.ReadLine();
-        CentralModel.Seed = seed;
-
-        InputEnum inputEnum = (InputEnum)int.Parse(seed.Split('.')[0]);
-        OutputEnum outputEnum = (OutputEnum)int.Parse(seed.Split('.')[1]);
+        SystemModel.Seed = seed;
 
         WriteLineDebug($"Seed: {seed}");
 
@@ -113,10 +78,88 @@ public static class Program
         return true;
     }
 
+    private static bool ValidateInputFile()
+    {
+        Console.Write("\nEnter an input path for the program: ");
+        string? inputFile = Console.ReadLine();
+
+        WriteLineDebug($"Input File: {inputFile}");
+        InputModel.InputFile = inputFile;
+
+        if (inputFile == null)
+        {
+            WriteLineError("The input file path is null.");
+
+            return false;
+        }
+
+        if (!File.Exists(inputFile))
+        {
+            WriteLineError("The input file does not exist.");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private static bool ValidateOutputFile()
+    {
+        Console.Write("\nEnter an output path for the program: ");
+        string? input = Console.ReadLine();
+
+        WriteLineDebug($"Output File: {input}");
+        InputModel.OutputFile = input;
+
+        if (input == null)
+        {
+            WriteLineError("The output file path is null.");
+
+            return false;
+        }
+
+        if (File.Exists(input))
+        {
+            WriteLineError("The output file already exists.");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private static bool ValidateInputFiles()
+    {
+        Console.Write("\nEnter the input files: ");
+        string[] input = Console.ReadLine().Split(',');
+
+        WriteLineDebug($"Input Files: {input.ToList().ListToString(",\n")}");
+        InputModel.InputFiles = input;
+
+        foreach (var item in input)
+        {
+            if (item == null)
+            {
+                WriteLineError($"The input file path is null.");
+
+                return false;
+            }
+
+            if (!File.Exists(item))
+            {
+                WriteLineError($"The input file: {item} does not exist.");
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void WriteError(string message)
     {
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write($"Error: {message}");
+        Console.Write($"[Error] {message}");
 
         Console.ForegroundColor = ConsoleColor.White;
     }
@@ -140,9 +183,22 @@ public static class Program
 
     public static void WriteLineDebug(string message)
     {
-        if (CentralModel.Debug)
+        if (InputModel.Debug)
         {
             WriteDebug($"{message}\n");
         }
+    }
+
+    public static void WriteWarning(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write($"[Warning] {message}");
+
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+    public static void WriteLineWarning(string message)
+    {
+        WriteWarning($"{message}\n");
     }
 }
