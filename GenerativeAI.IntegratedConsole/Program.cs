@@ -2,13 +2,13 @@
 
 public static class Program
 {
-    private static string regexExpression = @"\d.\d";
-    private static string regexExpression2 = @"\d\d.\d\d";
+    private static string regexExpression = @"\d.\d.\d";
+    private static string regexExpressionTwoDigits = @"\d\d.\d\d.\d\d";
 
     private static void Main(string[] args)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("======================= Main Commit 6 =======================\n");
+        Console.WriteLine("======================= Main Commit 7 =======================\n");
         Console.ForegroundColor = ConsoleColor.White;
 
         var validationOutput = Validate();
@@ -32,8 +32,9 @@ public static class Program
             return false;
         }
 
-        InputEnum inputEnum = (InputEnum)int.Parse(SystemModel.Seed.Split('.')[0]);
-        OutputEnum outputEnum = (OutputEnum)int.Parse(SystemModel.Seed.Split('.')[1]);
+        InputEnum inputEnum = (InputEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.InputIndex]);
+        ImageTransformationEnum imageEnum = (ImageTransformationEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.ImageIndex]);
+        OutputEnum outputEnum = (OutputEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.OutputIndex]);
 
         if (inputEnum == InputEnum.CVFile && !ValidateInputFile())
         {
@@ -41,6 +42,11 @@ public static class Program
         }
 
         if (inputEnum == InputEnum.CVMultipleFiles && !ValidateInputFiles())
+        {
+            return false;
+        }
+
+        if (imageEnum == ImageTransformationEnum.BlendImages && !ValidateImageFile())
         {
             return false;
         }
@@ -68,7 +74,7 @@ public static class Program
             return false;
         }
 
-        if (!new Regex(regexExpression).IsMatch(seed) && !new Regex(regexExpression2).IsMatch(seed))
+        if (!new Regex(regexExpression).IsMatch(seed) && !new Regex(regexExpressionTwoDigits).IsMatch(seed))
         {
             WriteLineError("The seed is in an incorrect format.");
 
@@ -98,6 +104,43 @@ public static class Program
             WriteLineError("The input file does not exist.");
 
             return false;
+        }
+
+        return true;
+    }
+
+    private static bool ValidateImageFile()
+    {
+        Console.Write("\nEnter an alpha value (press enter for the defualt value): ");
+        string? input = Console.ReadLine();
+
+        if (input != string.Empty)
+        {
+            bool result = float.TryParse(input, out float alpha);
+            InputModel.Alpha = alpha;
+
+            if (!result)
+            {
+                WriteLineError($"The input \"{input}\" is not a decimal.");
+
+                return false;
+            }
+        }
+
+        Console.Write("\nEnter an beta value (press enter for the defualt value): ");
+        input = Console.ReadLine();
+
+        if (input != string.Empty)
+        {
+            bool result = float.TryParse(input, out float beta);
+            InputModel.Beta = beta;
+
+            if (!result)
+            {
+                WriteLineError($"The input \"{input}\" is not a decimal.");
+
+                return false;
+            }
         }
 
         return true;
@@ -133,7 +176,7 @@ public static class Program
         Console.Write("\nEnter the input files: ");
         string[] input = Console.ReadLine().Split(',');
 
-        WriteLineDebug($"Input Files: {input.ToList().ListToString(",\n")}");
+        WriteLineDebug($"Input Files: {input.ToList().ListToString(", and \n")}");
         InputModel.InputFiles = input;
 
         foreach (var item in input)

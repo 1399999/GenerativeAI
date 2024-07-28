@@ -2,5 +2,6 @@
 
 public enum ImageTransformationEnum
 {
-    BlendImages = 0, // Using OpenCV.
+    None = 0,
+    BlendImages = 1, // Using OpenCV.
 }
