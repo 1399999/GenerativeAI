@@ -66,18 +66,9 @@ public class SeedNavigator
 
         bool openCVImported = false;
 
-        if ((options.Input == InputEnum.CVFile || options.Input == InputEnum.CVCamera || options.Input == InputEnum.CVMultipleFiles) && !openCVImported)
-        {
-            openCVImported = true;
-
-            return new List<string>()
-            {
-                "import cv2",
-                "",
-            };
-        }
-
-        if ((options.Output == OutputEnum.CVFile || options.Output == OutputEnum.CVCameraWindow) && !openCVImported)
+        if ((options.Input == InputEnum.CVFile || options.Input == InputEnum.CVCamera || options.Input == InputEnum.CVGrayScale ||
+            options.ImageTransformation == ImageTransformationEnum.BlendImages ||
+            options.Output == OutputEnum.CVFile || options.Output == OutputEnum.CVCameraWindow) && !openCVImported)
         {
             openCVImported = true;
 
@@ -96,5 +87,8 @@ public class SeedNavigator
         File.WriteAllLines(Options.FilePath, list);
 
         Process.Start("python.exe", Options.FilePath);
+        
+        // To make it work, you must do that. (300 is a hardcoded number, probably good to change it).
+        Thread.Sleep(300);
     }
 }

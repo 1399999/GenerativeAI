@@ -1,6 +1,0 @@
-MC 6:
-	Adds the ability to import more than one file.
-	Keeps track of all variables declared in the file.
-
-Future Warnings:
-	If the amount of variables does not increase after the input function is called.

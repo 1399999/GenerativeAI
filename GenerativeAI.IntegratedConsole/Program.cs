@@ -8,15 +8,23 @@ public static class Program
     private static void Main(string[] args)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("======================= Main Commit 7 =======================\n");
+        Console.WriteLine("======================= Main Commit 8 =======================\n");
         Console.ForegroundColor = ConsoleColor.White;
 
-        var validationOutput = Validate();
+        WriteLineTesting("Test beginning");
 
-        if (validationOutput)
+        if (SystemModel.Testing)
         {
-            int[] vectors = SystemModel.Seed.Split('.').StringToIntArray();
-            SeedNavigator.Navigate(vectors);
+            TestFile.TestAllCases();
+        }
+
+        else
+        {
+            if (Validate())
+            {
+                int[] vectors = SystemModel.Seed.Split('.').StringToIntArray();
+                SeedNavigator.Navigate(vectors);
+            }
         }
 
         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -25,7 +33,7 @@ public static class Program
     }
 
     // (bool IsValid, string? Input) is a tuple.
-    public static bool Validate()
+    private static bool Validate()
     {
         if (!ValidateSeed())
         {
@@ -36,22 +44,27 @@ public static class Program
         ImageTransformationEnum imageEnum = (ImageTransformationEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.ImageIndex]);
         OutputEnum outputEnum = (OutputEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.OutputIndex]);
 
-        if (inputEnum == InputEnum.CVFile && !ValidateInputFile())
+        if (inputEnum == InputEnum.CVFile && !InputValidation.ValidateInputFiles())
         {
             return false;
         }
 
-        if (inputEnum == InputEnum.CVMultipleFiles && !ValidateInputFiles())
+        else if (inputEnum == InputEnum.CVGrayScale)
+        {
+            InputModel.Grayscale = true;
+
+            if (!InputValidation.ValidateInputFiles())
+            {
+                return false;
+            }
+        }
+
+        if (imageEnum == ImageTransformationEnum.BlendImages && !ImageValidation.ValidateBlendedImage())
         {
             return false;
         }
 
-        if (imageEnum == ImageTransformationEnum.BlendImages && !ValidateImageFile())
-        {
-            return false;
-        }
-
-        if (outputEnum == OutputEnum.CVFile && !ValidateOutputFile())
+        if (outputEnum == OutputEnum.CVFile && !OutputValidation.ValidateOutputFile())
         {
             return false;
         }
@@ -59,10 +72,11 @@ public static class Program
         return true;
     }
 
-    private static bool ValidateSeed()
+    public static bool ValidateSeed(string? definedSeed = null)
     {
         Console.Write("Enter a seed for the program: ");
-        string seed = Console.ReadLine();
+
+        string? seed = (!SystemModel.Testing) ? Console.ReadLine() : definedSeed;
         SystemModel.Seed = seed;
 
         WriteLineDebug($"Seed: {seed}");
@@ -81,119 +95,11 @@ public static class Program
             return false;
         }
 
-        return true;
-    }
-
-    private static bool ValidateInputFile()
-    {
-        Console.Write("\nEnter an input path for the program: ");
-        string? inputFile = Console.ReadLine();
-
-        WriteLineDebug($"Input File: {inputFile}");
-        InputModel.InputFile = inputFile;
-
-        if (inputFile == null)
+        if (TestFile.InvalidSeedArray.Contains(seed))
         {
-            WriteLineError("The input file path is null.");
+            WriteLineError("That seed is contained in a blacklist array.");
 
             return false;
-        }
-
-        if (!File.Exists(inputFile))
-        {
-            WriteLineError("The input file does not exist.");
-
-            return false;
-        }
-
-        return true;
-    }
-
-    private static bool ValidateImageFile()
-    {
-        Console.Write("\nEnter an alpha value (press enter for the defualt value): ");
-        string? input = Console.ReadLine();
-
-        if (input != string.Empty)
-        {
-            bool result = float.TryParse(input, out float alpha);
-            InputModel.Alpha = alpha;
-
-            if (!result)
-            {
-                WriteLineError($"The input \"{input}\" is not a decimal.");
-
-                return false;
-            }
-        }
-
-        Console.Write("\nEnter an beta value (press enter for the defualt value): ");
-        input = Console.ReadLine();
-
-        if (input != string.Empty)
-        {
-            bool result = float.TryParse(input, out float beta);
-            InputModel.Beta = beta;
-
-            if (!result)
-            {
-                WriteLineError($"The input \"{input}\" is not a decimal.");
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static bool ValidateOutputFile()
-    {
-        Console.Write("\nEnter an output path for the program: ");
-        string? input = Console.ReadLine();
-
-        WriteLineDebug($"Output File: {input}");
-        InputModel.OutputFile = input;
-
-        if (input == null)
-        {
-            WriteLineError("The output file path is null.");
-
-            return false;
-        }
-
-        if (File.Exists(input))
-        {
-            WriteLineError("The output file already exists.");
-
-            return false;
-        }
-
-        return true;
-    }
-
-    private static bool ValidateInputFiles()
-    {
-        Console.Write("\nEnter the input files: ");
-        string[] input = Console.ReadLine().Split(',');
-
-        WriteLineDebug($"Input Files: {input.ToList().ListToString(", and \n")}");
-        InputModel.InputFiles = input;
-
-        foreach (var item in input)
-        {
-            if (item == null)
-            {
-                WriteLineError($"The input file path is null.");
-
-                return false;
-            }
-
-            if (!File.Exists(item))
-            {
-                WriteLineError($"The input file: {item} does not exist.");
-
-                return false;
-            }
         }
 
         return true;
@@ -226,7 +132,7 @@ public static class Program
 
     public static void WriteLineDebug(string message)
     {
-        if (InputModel.Debug)
+        if (SystemModel.Debug || SystemModel.Testing)
         {
             WriteDebug($"{message}\n");
         }
@@ -243,5 +149,23 @@ public static class Program
     public static void WriteLineWarning(string message)
     {
         WriteWarning($"{message}\n");
+    }
+
+    public static void WriteTesting(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write($"[Testing] ");
+
+        Console.ForegroundColor = ConsoleColor.White;
+
+        Console.Write(message);
+    }
+
+    public static void WriteLineTesting(string message)
+    {
+        if (SystemModel.Testing)
+        {
+            WriteTesting($"{message}\n");
+        }
     }
 }

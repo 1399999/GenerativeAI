@@ -1,4 +1,4 @@
-﻿namespace GenerativeAI.IntegratedConsole.Functionality;
+﻿namespace GenerativeAI.IntegratedConsole.Functionality.CodeWriting;
 
 public static class OutputFunctionality
 {

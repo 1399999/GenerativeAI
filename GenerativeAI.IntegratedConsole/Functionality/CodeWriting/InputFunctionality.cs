@@ -1,4 +1,4 @@
-﻿namespace GenerativeAI.IntegratedConsole.Functionality;
+﻿namespace GenerativeAI.IntegratedConsole.Functionality.CodeWriting;
 
 public static class InputFunctionality
 {
@@ -10,7 +10,7 @@ public static class InputFunctionality
 
         if (options.Input == InputEnum.CVFile)
         {
-            output = AddCVFileInput();
+            output = AddCVMultipleFilesInput();
         }
 
         else if (options.Input == InputEnum.CVCamera)
@@ -18,9 +18,9 @@ public static class InputFunctionality
             output = AddCVCameraInput();
         }
 
-        else if (options.Input == InputEnum.CVMultipleFiles)
+        else if (options.Input == InputEnum.CVGrayScale)
         {
-            output = AddCVMultipleFilesInput();
+            output = AddGrayscaleInput();
         }
 
         if (warningTracker == SystemModel.Variables.Count)
@@ -31,19 +31,19 @@ public static class InputFunctionality
         return output;
     }
 
-    public static List<string> AddCVFileInput()
-    {
-        SystemModel.Variables.Add(new Variable()
-        {
-            Name = "img",
-            Type = VariableType.InputImg,
-        });
+    //public static List<string> AddCVFileInput()
+    //{
+    //    SystemModel.Variables.Add(new Variable()
+    //    {
+    //        Name = "img",
+    //        Type = VariableType.InputImg,
+    //    });
 
-        return new List<string>()
-        {
-            $"img = cv2.imread(\'{InputModel.InputFile.ToOpenCVFileFormat()}\')",
-        };
-    }
+    //    return new List<string>()
+    //    {
+    //        $"img = cv2.imread(\'{InputModel.InputFile.ToOpenCVFileFormat()}\')",
+    //    };
+    //}
 
     public static List<string> AddCVCameraInput()
     {
@@ -89,6 +89,24 @@ public static class InputFunctionality
             });
 
             output.Add($"img{i} = cv2.imread(\'{InputModel.InputFiles[i].ToOpenCVFileFormat()}\')");
+        }
+
+        return output;
+    }
+
+    public static List<string> AddGrayscaleInput()
+    {
+        List<string> output = new List<string>();
+
+        for (int i = 0; i < InputModel.InputFiles.Length; i++)
+        {
+            SystemModel.Variables.Add(new Variable()
+            {
+                Name = $"img{i}",
+                Type = VariableType.InputImg,
+            });
+
+            output.Add($"img{i} = cv2.imread(\'{InputModel.InputFiles[i].ToOpenCVFileFormat()}\', 0)");
         }
 
         return output;

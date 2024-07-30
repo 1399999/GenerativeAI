@@ -1,0 +1,11 @@
+MC 6:
+	Adds the ability to import more than one file.
+	Keeps track of all variables declared in the file.
+MC 7:
+	Second part of code "refactoring".
+	Fully implements one section of a middle layer.
+MC 8:
+	Adds a complete testing file.
+	Adds the ability to import gray-scale images.
+MC 9:
+	Fix an error with the color channels being flipped.
