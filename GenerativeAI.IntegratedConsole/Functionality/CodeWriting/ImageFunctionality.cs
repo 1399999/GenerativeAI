@@ -6,7 +6,7 @@ public static class ImageFunctionality
     {
         List<string> output = new List<string>();
 
-        if (options.ImageTransformation == ImageTransformationEnum.BlendImages)
+        if (options.ImageTransformation == ImageTransformationEnum.BlendImagesFull)
         {
             output = AddBlendImage(options);
         }
@@ -28,7 +28,7 @@ public static class ImageFunctionality
 
         output.Add("");
 
-        if (InputModel.Grayscale)
+        if (InputModel.Input.Grayscale)
         {
             output.Add($"y, x = {SystemModel.Variables[InputModel.FirstVariableIndex].Name}.shape");
         }
@@ -45,7 +45,7 @@ public static class ImageFunctionality
             "",
             $"\t{SystemModel.Variables[InputModel.SecondVariableIndex].Name} = cv2.resize({SystemModel.Variables[InputModel.SecondVariableIndex].Name}, (x, y))",
             "",
-            $"blendedImg = cv2.addWeighted(src1 = {SystemModel.Variables[InputModel.FirstVariableIndex].Name}, alpha = {InputModel.Alpha}, src2 = {SystemModel.Variables[InputModel.SecondVariableIndex].Name}, beta = {InputModel.Beta}, gamma = 0)",
+            $"blendedImg = cv2.addWeighted(src1 = {SystemModel.Variables[InputModel.FirstVariableIndex].Name}, alpha = {InputModel.Input.Alpha}, src2 = {SystemModel.Variables[InputModel.SecondVariableIndex].Name}, beta = {InputModel.Input.Beta}, gamma = 0)",
         });
 
         return output;

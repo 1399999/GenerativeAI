@@ -67,7 +67,7 @@ public class SeedNavigator
         bool openCVImported = false;
 
         if ((options.Input == InputEnum.CVFile || options.Input == InputEnum.CVCamera || options.Input == InputEnum.CVGrayScale ||
-            options.ImageTransformation == ImageTransformationEnum.BlendImages ||
+            options.ImageTransformation == ImageTransformationEnum.BlendImagesFull ||
             options.Output == OutputEnum.CVFile || options.Output == OutputEnum.CVCameraWindow) && !openCVImported)
         {
             openCVImported = true;

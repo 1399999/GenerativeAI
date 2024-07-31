@@ -32,13 +32,13 @@ public static class TestFile
 
     private static string[] OneInputFile { get; } = new string[]
     {
-        @"C:\ComputerVisionCourse\ImgSaves\Img1.jpg",
+        @"C:\ComputerVisionCourse\ImgSaves\Img",
     };
 
     private static string[] TwoInputFiles { get; } = new string[]
     {
-        @"C:\ComputerVisionCourse\ImgSaves\Img1.jpg",
-        @"C:\ComputerVisionCourse\ImgSaves\Img2.jpg",
+        @"C:\ComputerVisionCourse\ImgSaves\Img",
+        @"C:\ComputerVisionCourse\ImgSaves\Img",
     };
 
     private static int InitialImageNumber { get; set; }
@@ -53,6 +53,10 @@ public static class TestFile
 
         foreach (string seed in SeedArray)
         {
+            OneInputFile[0] = OneInputFile[0] + random.Next(1, 64) + ".jpg";
+            TwoInputFiles[0] = TwoInputFiles[0] + random.Next(1, 64) + ".jpg";
+            TwoInputFiles[1] = TwoInputFiles[1] + random.Next(1, 64) + ".jpg";
+
             SystemModel.Variables.Clear();
 
             bool error = random.NextDouble() < 0.5 ? true : false;
@@ -83,7 +87,7 @@ public static class TestFile
 
         else if (inputEnum == InputEnum.CVGrayScale)
         {
-            InputModel.Grayscale = true;
+            InputModel.Input.Grayscale = true;
 
             if (!InputValidation.ValidateInputFiles(error ? TwoInputFiles : OneInputFile))
             {
@@ -91,7 +95,7 @@ public static class TestFile
             }
         }
 
-        if (imageEnum == ImageTransformationEnum.BlendImages && !ImageValidation.ValidateBlendedImage(alpha.ToString(), beta.ToString()))
+        if (imageEnum == ImageTransformationEnum.BlendImagesFull && !ImageValidation.ValidateBlendedImage(alpha.ToString(), beta.ToString()))
         {
             return false;
         }

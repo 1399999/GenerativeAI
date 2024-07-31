@@ -1,4 +1,4 @@
-﻿namespace GenerativeAI.IntegratedConsole;
+﻿namespace GenerativeAI.IntegratedConsole.Functionality.Utilities;
 
 public static class UtilityFunctions
 {
@@ -88,7 +88,7 @@ public static class UtilityFunctions
 
         oldList.ForEach((item) =>
         {
-            newList.Add((T)item);
+            newList.Add(item);
         });
 
         return newList;
@@ -211,7 +211,7 @@ public static class UtilityFunctions
 
     public static void CreateFile(this string filePath)
     {
-        using (FileStream fs = File.Create(filePath));
+        using (FileStream fs = File.Create(filePath)) ;
     }
 
     public static void TryCreateFile(this string filePath, string[] contents)

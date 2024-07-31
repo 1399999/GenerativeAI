@@ -31,20 +31,6 @@ public static class InputFunctionality
         return output;
     }
 
-    //public static List<string> AddCVFileInput()
-    //{
-    //    SystemModel.Variables.Add(new Variable()
-    //    {
-    //        Name = "img",
-    //        Type = VariableType.InputImg,
-    //    });
-
-    //    return new List<string>()
-    //    {
-    //        $"img = cv2.imread(\'{InputModel.InputFile.ToOpenCVFileFormat()}\')",
-    //    };
-    //}
-
     public static List<string> AddCVCameraInput()
     {
         SystemModel.Variables.Add(new Variable()
@@ -80,7 +66,7 @@ public static class InputFunctionality
     {
         List<string> output = new List<string>();
 
-        for (int i = 0; i < InputModel.InputFiles.Length; i++)
+        for (int i = 0; i < InputModel.Input.InputFiles.Length; i++)
         {
             SystemModel.Variables.Add(new Variable()
             {
@@ -88,7 +74,8 @@ public static class InputFunctionality
                 Type = VariableType.InputImg,
             });
 
-            output.Add($"img{i} = cv2.imread(\'{InputModel.InputFiles[i].ToOpenCVFileFormat()}\')");
+            output.Add($"img{i} = cv2.imread(\'{InputModel.Input.InputFiles[i].ToOpenCVFileFormat()}\')");
+            output.Add($"img{i} = cv2.cvtColor(img{i}, cv2.COLOR_BGR2RGB)");
         }
 
         return output;
@@ -98,7 +85,7 @@ public static class InputFunctionality
     {
         List<string> output = new List<string>();
 
-        for (int i = 0; i < InputModel.InputFiles.Length; i++)
+        for (int i = 0; i < InputModel.Input.InputFiles.Length; i++)
         {
             SystemModel.Variables.Add(new Variable()
             {
@@ -106,7 +93,7 @@ public static class InputFunctionality
                 Type = VariableType.InputImg,
             });
 
-            output.Add($"img{i} = cv2.imread(\'{InputModel.InputFiles[i].ToOpenCVFileFormat()}\', 0)");
+            output.Add($"img{i} = cv2.imread(\'{InputModel.Input.InputFiles[i].ToOpenCVFileFormat()}\', 0)");
         }
 
         return output;

@@ -31,7 +31,7 @@ public static class OutputFunctionality
 
         return new List<string>()
         {
-            $"cv2.imwrite(\'{InputModel.OutputFile.ToOpenCVFileFormat()}\', {varName.Name})",
+            $"cv2.imwrite(\'{InputModel.Input.OutputFile.ToOpenCVFileFormat()}\', {varName.Name})",
             "",
         };
     }
@@ -50,7 +50,7 @@ public static class OutputFunctionality
             "\tcv2.imshow('my_drawing', frame)",
             "\t",
             "\t# Breaks when escape key (is int \"27\") is hit after waiting 20 seconds.",
-            $"\tif cv2.waitKey(20) & 0xFF == {InputModel.EscapeCharInt}:",
+            $"\tif cv2.waitKey(20) & 0xFF == {InputModel.Input.EscapeCharInt}:",
             "\t\tbreak",
             "",
             "# Once script is done, close all windows (just in case you have multiple windows called).",

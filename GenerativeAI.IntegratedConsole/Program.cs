@@ -11,7 +11,7 @@ public static class Program
         Console.WriteLine("======================= Main Commit 8 =======================\n");
         Console.ForegroundColor = ConsoleColor.White;
 
-        WriteLineTesting("Test beginning");
+        WriteLineTesting("Test beginning.");
 
         if (SystemModel.Testing)
         {
@@ -20,7 +20,7 @@ public static class Program
 
         else
         {
-            if (Validate())
+            if (Validate(SystemModel.StaticInput))
             {
                 int[] vectors = SystemModel.Seed.Split('.').StringToIntArray();
                 SeedNavigator.Navigate(vectors);
@@ -33,9 +33,9 @@ public static class Program
     }
 
     // (bool IsValid, string? Input) is a tuple.
-    private static bool Validate()
+    private static bool Validate(JsonInput input)
     {
-        if (!ValidateSeed())
+        if (!ValidateSeed(input.Seed))
         {
             return false;
         }
@@ -44,27 +44,27 @@ public static class Program
         ImageTransformationEnum imageEnum = (ImageTransformationEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.ImageIndex]);
         OutputEnum outputEnum = (OutputEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.OutputIndex]);
 
-        if (inputEnum == InputEnum.CVFile && !InputValidation.ValidateInputFiles())
+        if (inputEnum == InputEnum.CVFile && !InputValidation.ValidateInputFiles(input.InputFiles))
         {
             return false;
         }
 
         else if (inputEnum == InputEnum.CVGrayScale)
         {
-            InputModel.Grayscale = true;
+            InputModel.Input.Grayscale = true;
 
-            if (!InputValidation.ValidateInputFiles())
+            if (!InputValidation.ValidateInputFiles(input.InputFiles))
             {
                 return false;
             }
         }
 
-        if (imageEnum == ImageTransformationEnum.BlendImages && !ImageValidation.ValidateBlendedImage())
+        if (imageEnum == ImageTransformationEnum.BlendImagesFull && !ImageValidation.ValidateBlendedImage(input.Alpha.ToString(), input.Beta.ToString()))
         {
             return false;
         }
 
-        if (outputEnum == OutputEnum.CVFile && !OutputValidation.ValidateOutputFile())
+        if (outputEnum == OutputEnum.CVFile && !OutputValidation.ValidateOutputFile(input.OutputFile))
         {
             return false;
         }
@@ -72,28 +72,12 @@ public static class Program
         return true;
     }
 
-    public static bool ValidateSeed(string? definedSeed = null)
+    public static bool ValidateSeed(string definedSeed)
     {
-        Console.Write("Enter a seed for the program: ");
-
-        string? seed = (!SystemModel.Testing) ? Console.ReadLine() : definedSeed;
+        string seed = definedSeed;
         SystemModel.Seed = seed;
 
         WriteLineDebug($"Seed: {seed}");
-
-        if (seed == null)
-        {
-            WriteLineError("The seed is null.");
-
-            return false;
-        }
-
-        if (!new Regex(regexExpression).IsMatch(seed) && !new Regex(regexExpressionTwoDigits).IsMatch(seed))
-        {
-            WriteLineError("The seed is in an incorrect format.");
-
-            return false;
-        }
 
         if (TestFile.InvalidSeedArray.Contains(seed))
         {
