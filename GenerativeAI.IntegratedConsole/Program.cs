@@ -8,7 +8,7 @@ public static class Program
     private static void Main(string[] args)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("======================= Main Commit 8 =======================\n");
+        Console.WriteLine("======================= Main Commit 10 =======================\n");
         Console.ForegroundColor = ConsoleColor.White;
 
         WriteLineTesting("Test beginning.");
