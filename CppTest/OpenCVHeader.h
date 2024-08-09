@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "opencv2/features2d.hpp"
 
 using namespace cv;
 using namespace std;
@@ -13,8 +14,4 @@ namespace OpenCVUtilities
 {
     const string filePath = "C:\\Temp\\CppFileIOTest.txt";
     const string tempInputPath = "C:\\Users\\mzheb\\Downloads\\saturn-v2.jpg";
-
-    void ImReadColor(char** argv);
-    void ImReadGrayscale(char** argv);
-    void WriteToFile(string message);
 }
