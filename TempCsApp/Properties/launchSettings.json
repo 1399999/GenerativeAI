@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TempCsApp": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
