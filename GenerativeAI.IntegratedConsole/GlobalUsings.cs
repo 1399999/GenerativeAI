@@ -1,5 +1,6 @@
 ﻿global using System.Text.RegularExpressions;
 global using System.Diagnostics;
+global using System.Runtime.InteropServices;
 
 global using GenerativeAI.IntegratedConsole.Enums;
 global using GenerativeAI.IntegratedConsole.Models;

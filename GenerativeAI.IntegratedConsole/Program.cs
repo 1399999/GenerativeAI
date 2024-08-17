@@ -7,87 +7,29 @@ public static class Program
 
     private static void Main(string[] args)
     {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("======================= Main Commit 10 =======================\n");
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("======================= Main Commit 11 =======================\n");
 
-        WriteLineTesting("Test beginning.");
+        InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
+
+        WriteLineTesting("Test beginning");
 
         if (SystemModel.Testing)
         {
-            TestFile.TestAllCases();
+            OpenCVUtilities.Test();
         }
 
-        else
-        {
-            if (Validate(SystemModel.StaticInput))
-            {
-                int[] vectors = SystemModel.Seed.Split('.').StringToIntArray();
-                SeedNavigator.Navigate(vectors);
-            }
-        }
+        //else
+        //{
+        //    if (Validate(SystemModel.StaticInput))
+        //    {
+        //        int[] vectors = SystemModel.Seed.Split('.').StringToIntArray();
+        //        SeedNavigator.Navigate(vectors);
+        //    }
+        //}
 
-        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("\n======================= Program Ended =======================");
-        Console.ForegroundColor = ConsoleColor.White;
     }
 
-    // (bool IsValid, string? Input) is a tuple.
-    private static bool Validate(JsonInput input)
-    {
-        if (!ValidateSeed(input.Seed))
-        {
-            return false;
-        }
-
-        InputEnum inputEnum = (InputEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.InputIndex]);
-        ImageTransformationEnum imageEnum = (ImageTransformationEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.ImageIndex]);
-        OutputEnum outputEnum = (OutputEnum)int.Parse(SystemModel.Seed.Split('.')[InputModel.OutputIndex]);
-
-        if (inputEnum == InputEnum.CVFile && !InputValidation.ValidateInputFiles(input.InputFiles))
-        {
-            return false;
-        }
-
-        else if (inputEnum == InputEnum.CVGrayScale)
-        {
-            InputModel.Input.Grayscale = true;
-
-            if (!InputValidation.ValidateInputFiles(input.InputFiles))
-            {
-                return false;
-            }
-        }
-
-        if (imageEnum == ImageTransformationEnum.BlendImagesFull && !ImageValidation.ValidateBlendedImage(input.Alpha.ToString(), input.Beta.ToString()))
-        {
-            return false;
-        }
-
-        if (outputEnum == OutputEnum.CVFile && !OutputValidation.ValidateOutputFile(input.OutputFile))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static bool ValidateSeed(string definedSeed)
-    {
-        string seed = definedSeed;
-        SystemModel.Seed = seed;
-
-        WriteLineDebug($"Seed: {seed}");
-
-        if (TestFile.InvalidSeedArray.Contains(seed))
-        {
-            WriteLineError("That seed is contained in a blacklist array.");
-
-            return false;
-        }
-
-        return true;
-    }
 
     public static void WriteError(string message)
     {

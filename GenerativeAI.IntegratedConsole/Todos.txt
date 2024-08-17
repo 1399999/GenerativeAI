@@ -8,4 +8,16 @@ MC 8:
 	Adds a complete testing file.
 	Adds the ability to import gray-scale images.
 MC 9:
-	Fix an error with the color channels being flipped.
+	Fixes an error with the color channels being flipped.
+MC 10:
+	Adds unfinished code.
+OCVUC 11 (MC 10.1):
+	Adds untested C++ code for 07.08.2024.
+OCVUC 12 (MC 10.2):
+	Adds untested C++ code for 08.08.2024.
+OCVUC 13 (MC 10.3):
+	Standardizes some of the code, and makes sure that it works with C#.
+MC 11:
+	Implements 10 functions into the main console.
+	Implements them without validation.
+	Demolishes all previous python code.

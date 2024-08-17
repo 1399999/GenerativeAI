@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GenerativeAI.IntegratedConsole": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

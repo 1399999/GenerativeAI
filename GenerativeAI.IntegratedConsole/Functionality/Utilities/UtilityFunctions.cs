@@ -252,7 +252,16 @@ public static class UtilityFunctions
             list);
     }
     #endregion
+    #region Miscallenous Functions
+    public static int GetCurrentOutputNumber()
+    {
+        List<string> files = Directory.GetFiles(InputModel.OutputDirectoryPath).OrderBy(x => File.GetLastWriteTime(x)).ToList();
+
+        return int.Parse(files[^1].Split('\\')[^1].Substring(3, 3));
+    }
+    #endregion
     #region Short Functions
+    public static string GetNextOutputPath() => Path.Combine(InputModel.OutputDirectoryPath, $"Img{++InputModel.InitialImageNumber}.png");
     public static int FloorTo(this double num, int floorTo) => (int)Math.Floor((double)num / floorTo) * floorTo;
     public static int AllowDivideByZero(this int i) => i != 0 ? i : int.MinValue;
     public static int GetSingleIndex(this int x, int y, int divider) => x * divider + y;
