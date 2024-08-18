@@ -12,7 +12,7 @@ namespace OpenCVUtilities
     // Function ID: 0.
     // Description: Gets an image from the path specified in color.
     // Paramater (path): The path, which the image is going to be read.
-    EXTERN_DLL_EXPORT void GetImgColor(STRING path)
+    EXTERN_DLL_EXPORT void RawGetImgColor(STRING path)
     {
         Mat img;
         img = imread(path, IMREAD_COLOR); // path
@@ -23,7 +23,7 @@ namespace OpenCVUtilities
     // Function ID: 1.
 	// Description: Gets an image from the path specified in grayscale.
 	// Paramater (path): The path, which the image is going to be read.
-	EXTERN_DLL_EXPORT void GetImgGrayscale(STRING path)
+	EXTERN_DLL_EXPORT void RawGetImgGrayscale(STRING path)
 	{
 		Mat img;
 		img = imread(path, IMREAD_GRAYSCALE); // path
@@ -38,7 +38,7 @@ namespace OpenCVUtilities
     // Paramater (rgb): The color of the rectangle.
     // Format (CV_8UC3): CV_[The number of bits per item][Signed or Unsigned][Type Prefix]C[The channel number].
     // Example: CreateRect(100, 100, Scalar(0, 0, 0));
-    EXTERN_DLL_EXPORT void CreateRect(int width, int height, int r, int g, int b)
+    EXTERN_DLL_EXPORT void RawCreateRect(int width, int height, int r, int g, int b)
 	{
 		Mat rect(width, height, CV_8UC3, Scalar(b, g, r));
         standardImg = rect;
@@ -47,7 +47,7 @@ namespace OpenCVUtilities
     // Function ID: 3.
     // Description: Writes the image stored inside "inputImg" to the specified path.
     // Paramater (path): The path, which the image is going to be written.
-    EXTERN_DLL_EXPORT void WriteToFile(STRING path)
+    EXTERN_DLL_EXPORT void RawWriteToFile(STRING path)
     {
         imwrite(path, standardImg);
     }
@@ -57,7 +57,7 @@ namespace OpenCVUtilities
     // Paramater (width): The width for the image.
     // Paramater (height): The height for the image.
     // Paramater (divideBy): The value for dividing the image.
-    EXTERN_DLL_EXPORT void CreateArrayOnes(int width, int height, double divideBy)
+    EXTERN_DLL_EXPORT void RawCreateArrayOnes(int width, int height, double divideBy)
 	{
 		Mat o = Mat::ones(width, height, CV_32F) / divideBy;
         standardImg = o;
@@ -67,7 +67,7 @@ namespace OpenCVUtilities
     // Description: Creates an array of ones from the specified paramaters.
     // Paramater (width): The width for the image.
     // Paramater (height): The height for the image.
-    EXTERN_DLL_EXPORT void CreateArrayZeros(int width, int height)
+    EXTERN_DLL_EXPORT void RawCreateArrayZeros(int width, int height)
 	{
 		Mat z = Mat::zeros(width, height, CV_8UC1);
         standardImg = z;
@@ -76,7 +76,7 @@ namespace OpenCVUtilities
     // Function ID: 6.
     // Description: Creates an array of ones from the specified paramaters.
     // Paramater (input): All pixels of the image.
-    EXTERN_DLL_EXPORT void CreateManualArray(Mat_<double> input)
+    EXTERN_DLL_EXPORT void RawCreateManualArray(Mat_<double> input)
 	{
 		Mat m = input;
         standardImg = m;
@@ -86,7 +86,7 @@ namespace OpenCVUtilities
     // Description: Gets a row from an image.
     // Paramater (img): The input image.
     // Paramater (row): The row of the image that will be extracted.
-    EXTERN_DLL_EXPORT void GetRow(int row)
+    EXTERN_DLL_EXPORT void RawGetRow(int row)
 	{
 		Mat rowClone = standardImg.row(row).clone();
 		standardImg = rowClone;
@@ -98,7 +98,7 @@ namespace OpenCVUtilities
     // Paramater (height): The height of the image.
     // Paramater (min): Minimum rgb grayscale value.
     // Paramater (max): Maximum rgb grayscale value.
-    EXTERN_DLL_EXPORT void CreateRandomArray(int width, int height, int min, int max)
+    EXTERN_DLL_EXPORT void RawCreateRandomArray(int width, int height, int min, int max)
 	{
 		Mat r = Mat(width, height, CV_8UC3);
 		randu(r, Scalar::all(min), Scalar::all(max));
@@ -112,7 +112,7 @@ namespace OpenCVUtilities
     // Paramater (y1): The y coordinate for the first set of coordinates.
     // Paramater (x2): The x coordinate for the second set of coordinates.
     // Paramater (y2): The y coordinate for the second set of coordinates.
-    EXTERN_DLL_EXPORT void GetRegionOfInterest(int x1, int y1, int x2, int y2)
+    EXTERN_DLL_EXPORT void RawGetRegionOfInterest(int x1, int y1, int x2, int y2)
 	{
 		Rect r(x1, x2, y1, y2);
 		Mat smallImg = standardImg(r);
@@ -123,7 +123,7 @@ namespace OpenCVUtilities
     // Function ID: 10.
     // Description: Displays a window which shows the standard image.
     // Paramater (winddowName): The name of the displayed window.
-    EXTERN_DLL_EXPORT void DisplayWindow(STRING winddowName)
+    EXTERN_DLL_EXPORT void RawDisplayWindow(STRING winddowName)
 	{
 		namedWindow(winddowName, WINDOW_AUTOSIZE);
 		imshow(winddowName, standardImg);

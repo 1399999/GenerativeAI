@@ -21,3 +21,7 @@ MC 11:
 	Implements 10 functions into the main console.
 	Implements them without validation.
 	Demolishes all previous python code.
+MC 12:
+	Removes any hardcoded code.
+	Integrated validation into the C++ code.
+	Disables functions if they cannot be validated.

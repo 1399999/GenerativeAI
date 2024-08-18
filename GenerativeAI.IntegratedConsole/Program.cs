@@ -1,9 +1,10 @@
-﻿namespace GenerativeAI.IntegratedConsole;
+﻿using GenerativeAI.IntegratedConsole.Functionality.Navigator;
+
+namespace GenerativeAI.IntegratedConsole;
 
 public static class Program
 {
-    private static string regexExpression = @"\d.\d.\d";
-    private static string regexExpressionTwoDigits = @"\d\d.\d\d.\d\d";
+    private const string regexValidationExpression = @"(0[0-9]|1[0].){1,}";
 
     private static void Main(string[] args)
     {
@@ -18,23 +19,34 @@ public static class Program
             OpenCVUtilities.Test();
         }
 
-        //else
-        //{
-        //    if (Validate(SystemModel.StaticInput))
-        //    {
-        //        int[] vectors = SystemModel.Seed.Split('.').StringToIntArray();
-        //        SeedNavigator.Navigate(vectors);
-        //    }
-        //}
+        else
+        {
+            if (Validate(SystemModel.StaticInput))
+            {
+                int[] vectors = SystemModel.StaticInput.Seed.Split('.').StringToIntArray();
+                SeedNavigator.Navigate(vectors);
+            }
+        }
 
         Console.WriteLine("\n======================= Program Ended =======================");
     }
 
+    public static bool Validate(JsonInput input)
+    {
+        Regex regex = new Regex(regexValidationExpression);
+
+        if (!regex.IsMatch(input.Seed))
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public static void WriteError(string message)
     {
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write($"[Error] {message}");
+        Console.Write($"[Non-Fatal Error] {message}");
 
         Console.ForegroundColor = ConsoleColor.White;
     }
@@ -92,6 +104,23 @@ public static class Program
         if (SystemModel.Testing)
         {
             WriteTesting($"{message}\n");
+        }
+    }
+
+    public static bool RequestPermission()
+    {
+        WriteWarning("Do you wish to proceed? (y for yes, any other key for no): ");
+
+        var key = Console.ReadKey();
+
+        if (key.Key == ConsoleKey.Y)
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
         }
     }
 }

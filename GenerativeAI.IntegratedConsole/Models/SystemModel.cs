@@ -2,22 +2,23 @@
 
 public static class SystemModel
 {
-    public static List<Variable> Variables { get; set; } = new();
     public static string Seed { get; set; } = string.Empty;
     public static bool Testing { get; } = false; // Has to be turned on manually.
     public static bool Debug { get; set; } = true; // Has to be turned on manually.
     public static int LastVarNum { get; set; } = 0;
     public static JsonInput StaticInput { get; set; } = new() 
     {
-        Seed = "0.0.0",
-
-        InputFiles = new string[]
-        {
-            @"C:\ComputerVisionCourse\ImgSaves\Img1.jpg"
-        },
-
-        Alpha = 0.5,
-        Beta = 0.5,
-        OutputFile = @"C:\GenerativeAITests\Img382.png",
+        Seed = "00.10.08.03",
+        InputPath = @"C:\ComputerVisionCourse\ImgSaves\Img1.jpg",
+        Width = 100,
+        Height = 100,
+        DivideBy = 10,
+        OutputPath = "",
+        RedChannel = 100,
+        GreenChannel = 100,
+        BlueChannel = 100,
+        MinRGB = 100,
+        MaxRGB = 200,
+        WindowName =  "Window Name",
     };
 }

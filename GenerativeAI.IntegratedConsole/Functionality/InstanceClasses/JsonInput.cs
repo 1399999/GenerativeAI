@@ -4,10 +4,15 @@
 public class JsonInput
 {
     public string Seed { get; set; } = string.Empty;
-    public string[] InputFiles { get; set; } = new string[] { };
-    public string OutputFile { get; set; } = string.Empty;
-    public double Alpha { get; set; }
-    public double Beta { get; set; }
-    public bool Grayscale { get; set; }
-    public int EscapeCharInt { get; set; } = 27; // Escape key.
+    public string InputPath { get; set; } = string.Empty;
+    public string OutputPath { get; set; } = string.Empty;
+    public ushort Width { get; set; }
+    public ushort Height { get; set; }
+    public byte RedChannel { get; set; }
+    public byte BlueChannel { get; set; }
+    public byte GreenChannel { get; set; }
+    public double DivideBy { get; set; }
+    public byte MinRGB { get; set; }
+    public byte MaxRGB { get; set; }
+    public string WindowName { get; set; } = string.Empty;
 }
