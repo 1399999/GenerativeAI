@@ -4,11 +4,11 @@ namespace GenerativeAI.IntegratedConsole;
 
 public static class Program
 {
-    private const string regexValidationExpression = @"(0[0-9]|1[0].){1,}";
+    private const string regexValidationExpression = @"(0[0-9]|1[0-1].){1,}";
 
     private static void Main(string[] args)
     {
-        Console.WriteLine("======================= Main Commit 11 =======================\n");
+        Console.WriteLine("======================= Main Commit 13 =======================\n");
 
         InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
 
@@ -46,9 +46,11 @@ public static class Program
     public static void WriteError(string message)
     {
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write($"[Non-Fatal Error] {message}");
+        Console.Write($"[Fatal Error] {message}");
 
         Console.ForegroundColor = ConsoleColor.White;
+
+        SystemModel.Work = false;
     }
 
     public static void WriteLineError(string message) => WriteError($"{message}\n");

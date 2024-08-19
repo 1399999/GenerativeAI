@@ -25,3 +25,6 @@ MC 12:
 	Removes any hardcoded code.
 	Integrated validation into the C++ code.
 	Disables functions if they cannot be validated.
+MC 13:
+	Adds an 11th function to the algorithm.
+	Adds hardcoded validation for the other 2 functions.

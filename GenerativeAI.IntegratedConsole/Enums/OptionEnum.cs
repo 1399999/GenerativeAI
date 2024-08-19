@@ -13,4 +13,5 @@ public enum OptionEnum
     CreateRandomArray = 8,
     GetRegionOfInterest = 9,
     DisplayWindow = 10,
+    GetColumn = 11,
 }

@@ -78,5 +78,10 @@ public static class SeedNavigator
         {
             OpenCVUtilities.DisplayWindow(SystemModel.StaticInput.WindowName);
         }
+
+        else if (option == OptionEnum.GetColumn) // 11
+        {
+            OpenCVUtilities.GetColumn(SystemModel.StaticInput.Column);
+        }
     }
 }

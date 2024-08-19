@@ -15,4 +15,6 @@ public class JsonInput
     public byte MinRGB { get; set; }
     public byte MaxRGB { get; set; }
     public string WindowName { get; set; } = string.Empty;
+    public ushort Row { get; set; }
+    public ushort Column { get; set; }
 }

@@ -21,8 +21,8 @@ namespace OpenCVUtilities
     }
 
     // Function ID: 1.
-	// Description: Gets an image from the path specified in grayscale.
-	// Paramater (path): The path, which the image is going to be read.
+    // Description: Gets an image from the path specified in grayscale.
+    // Paramater (path): The path, which the image is going to be read.
 	EXTERN_DLL_EXPORT void RawGetImgGrayscale(STRING path)
 	{
 		Mat img;
@@ -33,11 +33,10 @@ namespace OpenCVUtilities
 
     // Function ID: 2.
     // Description: Creates a rectangle from the specified parameters.
-    // Paramater (x): The x position for the rectangle.
-    // Paramater (y): The y position for the rectangle.
-    // Paramater (rgb): The color of the rectangle.
+    // Paramater (width, height): The dimensions for the rectangle.
+    // Paramaters (r, g, b): The color of the rectangle.
     // Format (CV_8UC3): CV_[The number of bits per item][Signed or Unsigned][Type Prefix]C[The channel number].
-    // Example: CreateRect(100, 100, Scalar(0, 0, 0));
+    // Example: CreateRect(100, 100, 0, 0, 0);
     EXTERN_DLL_EXPORT void RawCreateRect(int width, int height, int r, int g, int b)
 	{
 		Mat rect(width, height, CV_8UC3, Scalar(b, g, r));
@@ -45,7 +44,7 @@ namespace OpenCVUtilities
 	}
 
     // Function ID: 3.
-    // Description: Writes the image stored inside "inputImg" to the specified path.
+    // Description: Writes the image stored inside "standardImg" to the specified path.
     // Paramater (path): The path, which the image is going to be written.
     EXTERN_DLL_EXPORT void RawWriteToFile(STRING path)
     {
@@ -76,6 +75,7 @@ namespace OpenCVUtilities
     // Function ID: 6.
     // Description: Creates an array of ones from the specified paramaters.
     // Paramater (input): All pixels of the image.
+    // Warning: Has to be used in conjunction with other methods.
     EXTERN_DLL_EXPORT void RawCreateManualArray(Mat_<double> input)
 	{
 		Mat m = input;
@@ -84,10 +84,15 @@ namespace OpenCVUtilities
 
     // Function ID: 7.
     // Description: Gets a row from an image.
-    // Paramater (img): The input image.
     // Paramater (row): The row of the image that will be extracted.
+    // Warning: Has to be used in conjunction with other methods.
     EXTERN_DLL_EXPORT void RawGetRow(int row)
 	{
+        if (standardImg.rows < row) // Width
+        {
+            cout << "[C++ Non-Fatal Error] The row value is outside of the image.";
+        }
+
 		Mat rowClone = standardImg.row(row).clone();
 		standardImg = rowClone;
 	}
@@ -112,12 +117,26 @@ namespace OpenCVUtilities
     // Paramater (y1): The y coordinate for the first set of coordinates.
     // Paramater (x2): The x coordinate for the second set of coordinates.
     // Paramater (y2): The y coordinate for the second set of coordinates.
+    // Warning: Has to be used in conjunction with other methods.
     EXTERN_DLL_EXPORT void RawGetRegionOfInterest(int x1, int y1, int x2, int y2)
 	{
-		Rect r(x1, x2, y1, y2);
-		Mat smallImg = standardImg(r);
+        if (standardImg.cols < x1 || standardImg.cols < x2) // Width
+        {
+            cout << "[C++ Non-Fatal Error] The x value is outside of the image.";
+        }
 
-		standardImg = smallImg;
+        else if (standardImg.rows < y1 || standardImg.rows < y2) // Width
+        {
+            cout << "[C++ Non-Fatal Error] The y value is outside of the image.";
+        }
+
+        else 
+        {
+            Rect r(x1, x2, y1, y2);
+            Mat smallImg = standardImg(r);
+
+            standardImg = smallImg;
+        }
 	}
 
     // Function ID: 10.
@@ -129,6 +148,21 @@ namespace OpenCVUtilities
 		imshow(winddowName, standardImg);
 		waitKey();
 	}
+
+    // Function ID: 11.
+    // Description: Gets a column from an image.
+    // Paramater (col): The row of the image that will be extracted.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawGetColumn(int col)
+    {
+        if (standardImg.rows < col) // Width
+        {
+            cout << "[C++ Non-Fatal Error] The column value is outside of the image.";
+        }
+
+        Mat rowClone = standardImg.col(col).clone();
+        standardImg = rowClone;
+    }
 
     // Return types need to be standardized.
     Ptr<Formatted> FormatToDefualt(Mat m)
