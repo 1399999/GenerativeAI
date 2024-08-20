@@ -28,3 +28,6 @@ MC 12:
 MC 13:
 	Adds an 11th function to the algorithm.
 	Adds hardcoded validation for the other 2 functions.
+MC 15:
+	Removes the 6th function work.
+	Adds all mask related functions that will be implemented into the main test file.

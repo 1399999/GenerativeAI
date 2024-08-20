@@ -17,4 +17,8 @@ public class JsonInput
     public string WindowName { get; set; } = string.Empty;
     public ushort Row { get; set; }
     public ushort Column { get; set; }
+    public ushort X1 { get; set; }
+    public ushort X2 { get; set; }
+    public ushort Y1 { get; set; }
+    public ushort Y2 { get; set; }
 }

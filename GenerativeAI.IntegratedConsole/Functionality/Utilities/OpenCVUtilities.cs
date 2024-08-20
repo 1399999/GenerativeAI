@@ -2,7 +2,7 @@
 
 public static class OpenCVUtilities
 {
-    const string DllPath = "C:\\Users\\mzheb\\source\\repos\\GenerativeAI\\x64\\Debug\\GenerativeAI.OpenCVUtils.dll";
+    const string DllPath = "C:\\Users\\mzheb\\source\\repos\\GenerativeAI\\x64\\Debug\\GenerativeAI.OpenCVAPI.dll";
 
     // Standard functions.
 

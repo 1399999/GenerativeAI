@@ -2,10 +2,8 @@
 
 public static class SystemModel
 {
-    public static string Seed { get; set; } = string.Empty;
-    public static bool Testing { get; } = false; // Has to be turned on manually.
+    public static bool Testing { get; } = true; // Has to be turned on manually.
     public static bool Debug { get; set; } = true; // Has to be turned on manually.
-    public static int LastVarNum { get; set; } = 0;
     public static bool Work { get; set; } = true; // If off, the entire algorithm shuts down.
     public static JsonInput StaticInput { get; set; } = new() 
     {
@@ -23,5 +21,9 @@ public static class SystemModel
         WindowName =  "Window Name",
         Row = 0,
         Column = 0,
+        X1 = 0,
+        Y1 = 0,
+        X2 = 1,
+        Y2 = 1,
     };
 }

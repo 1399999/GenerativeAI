@@ -24,7 +24,7 @@
     <ProjectGuid>{5b720d62-15d7-4da4-8cb8-a722d919f0fb}</ProjectGuid>
     <RootNamespace>CppTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>GenerativeAI.OpenCVUtils</ProjectName>
+    <ProjectName>GenerativeAI.OpenCVAPI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

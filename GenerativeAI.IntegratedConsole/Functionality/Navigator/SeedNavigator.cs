@@ -51,14 +51,14 @@ public static class SeedNavigator
                 SystemModel.StaticInput.Height);
         }
 
-        else if (option == OptionEnum.CreateManualArray) // 6
-        {
-            throw new NotImplementedException("This feature is currently disabled due to its paramaters being abnormal.");
-        }
+        //else if (option == OptionEnum.CreateManualArray) // 6
+        //{
+        //    throw new NotImplementedException("This feature is currently disabled due to its paramaters being abnormal.");
+        //}
 
         else if (option == OptionEnum.GetRow) // 7
         {
-            throw new NotImplementedException("This feature is currently disabled due to its paramaters being difficult to validate.");
+            OpenCVUtilities.GetRow(SystemModel.StaticInput.Row);
         }
 
         else if (option == OptionEnum.CreateRandomArray) // 8
@@ -71,7 +71,7 @@ public static class SeedNavigator
 
         else if (option == OptionEnum.GetRegionOfInterest) // 9
         {
-            throw new NotImplementedException("This feature is currently disabled due to its paramaters being difficult to validate.");
+            OpenCVUtilities.GetRegionOfInterest(SystemModel.StaticInput.X1, SystemModel.StaticInput.Y1, SystemModel.StaticInput.X2, SystemModel.StaticInput.Y2);
         }
 
         else if (option == OptionEnum.DisplayWindow) // 10

@@ -76,11 +76,12 @@ namespace OpenCVUtilities
     // Description: Creates an array of ones from the specified paramaters.
     // Paramater (input): All pixels of the image.
     // Warning: Has to be used in conjunction with other methods.
-    EXTERN_DLL_EXPORT void RawCreateManualArray(Mat_<double> input)
+    /*EXTERN_DLL_EXPORT void RawCreateManualArray(double input[])
 	{
-		Mat m = input;
-        standardImg = m;
-	}
+        Mat_<double> dsfds= 
+
+        standardImg = input;
+	}*/
 
     // Function ID: 7.
     // Description: Gets a row from an image.
@@ -162,6 +163,170 @@ namespace OpenCVUtilities
 
         Mat rowClone = standardImg.col(col).clone();
         standardImg = rowClone;
+    }
+
+    // Function ID: 12.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskOnePixel(char list[1])
+    {
+        Mat_<char> charList(1, 1);
+        charList << list[0];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 13.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskTwoPixels(char list[4])
+    {
+        Mat_<char> charList(2, 2);
+        charList << list[0], list[1], list[2], list[3];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 15.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskThreePixels(char list[9])
+    {
+        Mat_<char> charList(3, 3);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 16.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskFourPixels(char list[16])
+    {
+        Mat_<char> charList(4, 4);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], 
+            list[10], list[11], list[12], list[13], list[14], list[15];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 17.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskFivePixels(char list[25])
+    {
+        Mat_<char> charList(5, 5);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9],
+            list[10], list[11], list[12], list[13], list[14], list[15], list[16], list[17], list[18], list[19], 
+            list[20], list[21], list[22], list[23], list[24];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 18.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskSixPixels(char list[36])
+    {
+        Mat_<char> charList(6, 6);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9],
+            list[10], list[11], list[12], list[13], list[14], list[15], list[16], list[17], list[18], list[19],
+            list[20], list[21], list[22], list[23], list[24], list[25], list[26], list[27], list[28], list[29],
+            list[30], list[31], list[32], list[33], list[34], list[35];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 19.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskSevenPixels(char list[49])
+    {
+        Mat_<char> charList(7, 7);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9],
+            list[10], list[11], list[12], list[13], list[14], list[15], list[16], list[17], list[18], list[19],
+            list[20], list[21], list[22], list[23], list[24], list[25], list[26], list[27], list[28], list[29],
+            list[30], list[31], list[32], list[33], list[34], list[35], list[36], list[37], list[38], list[39],
+            list[40], list[41], list[42], list[43], list[44], list[45], list[46], list[47], list[48];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 20.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskEightPixels(char list[64])
+    {
+        Mat_<char> charList(8, 8);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9],
+            list[10], list[11], list[12], list[13], list[14], list[15], list[16], list[17], list[18], list[19],
+            list[20], list[21], list[22], list[23], list[24], list[25], list[26], list[27], list[28], list[29],
+            list[30], list[31], list[32], list[33], list[34], list[35], list[36], list[37], list[38], list[39],
+            list[40], list[41], list[42], list[43], list[44], list[45], list[46], list[47], list[48], list[49],
+            list[50], list[51], list[52], list[53], list[54], list[55], list[56], list[57], list[58], list[59],
+            list[60], list[61], list[62], list[63];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 21.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskNinePixels(char list[81])
+    {
+        Mat_<char> charList(9, 9);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9],
+            list[10], list[11], list[12], list[13], list[14], list[15], list[16], list[17], list[18], list[19],
+            list[20], list[21], list[22], list[23], list[24], list[25], list[26], list[27], list[28], list[29],
+            list[30], list[31], list[32], list[33], list[34], list[35], list[36], list[37], list[38], list[39],
+            list[40], list[41], list[42], list[43], list[44], list[45], list[46], list[47], list[48], list[49],
+            list[50], list[51], list[52], list[53], list[54], list[55], list[56], list[57], list[58], list[59],
+            list[60], list[61], list[62], list[63], list[64], list[65], list[66], list[67], list[68], list[69],
+            list[70], list[71], list[72], list[73], list[74], list[75], list[76], list[77], list[78], list[79],
+            list[80];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
+    }
+
+    // Function ID: 22.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void RawApplyMaskTenPixels(char list[100])
+    {
+        Mat_<char> charList(10, 10);
+        charList << list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9],
+            list[10], list[11], list[12], list[13], list[14], list[15], list[16], list[17], list[18], list[19],
+            list[20], list[21], list[22], list[23], list[24], list[25], list[26], list[27], list[28], list[29],
+            list[30], list[31], list[32], list[33], list[34], list[35], list[36], list[37], list[38], list[39],
+            list[40], list[41], list[42], list[43], list[44], list[45], list[46], list[47], list[48], list[49],
+            list[50], list[51], list[52], list[53], list[54], list[55], list[56], list[57], list[58], list[59],
+            list[60], list[61], list[62], list[63], list[64], list[65], list[66], list[67], list[68], list[69],
+            list[70], list[71], list[72], list[73], list[74], list[75], list[76], list[77], list[78], list[79],
+            list[80], list[81], list[82], list[83], list[84], list[85], list[86], list[87], list[88], list[89],
+            list[90], list[91], list[92], list[93], list[94], list[95], list[96], list[97], list[98], list[99],
+            list[100];
+
+        Mat kernel = charList;
+        filter2D(standardImg, standardImg, standardImg.depth(), kernel);
     }
 
     // Return types need to be standardized.

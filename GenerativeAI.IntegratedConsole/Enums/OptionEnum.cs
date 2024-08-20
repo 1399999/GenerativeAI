@@ -8,7 +8,7 @@ public enum OptionEnum
     WriteToFile = 3,
     CreateArrayOnes = 4,
     CreateArrayZeros = 5,
-    CreateManualArray = 6,
+    //CreateManualArray = 6,
     GetRow = 7,
     CreateRandomArray = 8,
     GetRegionOfInterest = 9,

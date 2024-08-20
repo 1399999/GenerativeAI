@@ -19,41 +19,27 @@
 //
 //		return output;
 //	}
-//
-//	// 16
-//	Mat ApplyMask(Mat src, Mat kernel)
+// 
+//	// 19
+//	Scalar GetIntensityGrayScale(int x, int y)
 //	{
-//		// For example:
-//		//Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0,
-//		//	-1, 5, -1,
-//		//	0, -1, 0);
-//
-//		Mat output;
-//		filter2D(src, output, src.depth(), kernel);
-//
-//		return output;
-//	}
-//	
-//	// 18
-//	Scalar GetIntensityGrayScale(Mat img, int x, int y)
-//	{
-//		Scalar intensity = img.at<uchar>(Point(x, y));
+//		Scalar intensity = standardImg.at<uchar>(Point(x, y));
 //		return intensity;
 //	}
 //
-//	// 19
-//	void GetIntensityColor(Mat img, int x, int y)
+//	// 20
+//	void GetIntensityColor(int x, int y)
 //	{
-//		Vec3b intensity = img.at<Vec3b>(y, x);
+//		Vec3b intensity = standardImg.at<Vec3b>(y, x);
 //		uchar blue = intensity.val[0];
 //		uchar green = intensity.val[1];
 //		uchar red = intensity.val[2];
 //	}
 //
-//	// 20
-//	void GetIntensityFloatColor(Mat img, int x, int y)
+//	// 21
+//	void GetIntensityFloatColor(int x, int y)
 //	{
-//		Vec3f intensity = img.at<Vec3f>(y, x);
+//		Vec3f intensity = standardImg.at<Vec3f>(y, x);
 //		float blue = intensity.val[0];
 //		float green = intensity.val[1];
 //		float red = intensity.val[2];
