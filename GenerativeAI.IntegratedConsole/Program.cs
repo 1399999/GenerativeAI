@@ -1,6 +1,4 @@
-﻿using GenerativeAI.IntegratedConsole.Functionality.Navigator;
-
-namespace GenerativeAI.IntegratedConsole;
+﻿namespace GenerativeAI.IntegratedConsole;
 
 public static class Program
 {
