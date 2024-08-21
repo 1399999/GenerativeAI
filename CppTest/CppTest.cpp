@@ -143,6 +143,7 @@ namespace OpenCVUtilities
     // Function ID: 10.
     // Description: Displays a window which shows the standard image.
     // Paramater (winddowName): The name of the displayed window.
+    // Recemondation: To be used in conjunction with other methods.
     EXTERN_DLL_EXPORT void RawDisplayWindow(STRING winddowName)
 	{
 		namedWindow(winddowName, WINDOW_AUTOSIZE);
@@ -328,6 +329,95 @@ namespace OpenCVUtilities
         Mat kernel = charList;
         filter2D(standardImg, standardImg, standardImg.depth(), kernel);
     }
+
+    //   // Function ID: 23.
+	//Scalar GetIntensityGrayScale(int x, int y)
+	//{
+	//	Scalar intensity = standardImg.at<uchar>(Point(x, y));
+	//	return intensity;
+	//}
+
+ //   // Function ID: 24.
+	//void GetIntensityColor(int x, int y)
+	//{
+	//	Vec3b intensity = standardImg.at<Vec3b>(y, x);
+	//	uchar blue = intensity.val[0];
+	//	uchar green = intensity.val[1];
+	//	uchar red = intensity.val[2];
+	//}
+
+ //   // Function ID: 25.
+	//void GetIntensityFloatColor(int x, int y)
+	//{
+	//	Vec3f intensity = standardImg.at<Vec3f>(y, x);
+	//	float blue = intensity.val[0];
+	//	float green = intensity.val[1];
+	//	float red = intensity.val[2];
+	//}
+
+    // Function ID: 26.
+    // Description: Converts a color image into a gray scale image.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertColorToGray()
+	{
+		cvtColor(standardImg, standardImg, COLOR_BGR2GRAY);
+	}
+
+    // Function ID: 27.
+    // Description: Converts a color image into a color image with alpha.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertColorToColorAlpha()
+	{
+		cvtColor(standardImg, standardImg, COLOR_BGR2BGRA);
+	}
+
+    // Function ID: 28.
+    // Description: Converts a color image into an HLS color image.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertColorToHLS()
+	{
+		cvtColor(standardImg, standardImg, COLOR_BGR2HLS);
+	}
+
+    // Function ID: 29.
+    // Description: Converts a color image into an HSV color image.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertColorToHSV()
+	{
+		cvtColor(standardImg, standardImg, COLOR_BGR2HSV);
+	}
+
+    // Function ID: 30.
+    // Description: Switches the r and g color channels.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertBRGToRGB()
+	{
+		cvtColor(standardImg, standardImg, COLOR_BGR2RGB);
+	}
+
+    // Function ID: 31.
+    // Description: Switches the r and g color channels and adds an alpha channel.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertBRGToRGBA()
+    {
+        cvtColor(standardImg, standardImg, COLOR_BGR2RGBA);
+    }
+
+    // Function ID: 32.
+    // Description: Switches the r and g color channels and adds an alpha channel.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertGrayToRGB()
+	{
+		cvtColor(standardImg, standardImg, COLOR_GRAY2RGB);
+	}
+
+    // Function ID: 33.
+    // Description: Converts a grayscale image into a color image.
+    // Warning: Has to be used in conjunction with other methods.
+    EXTERN_DLL_EXPORT void ConvertGrayToColor()
+	{
+		cvtColor(standardImg, standardImg, COLOR_GRAY2BGR);
+	}
 
     // Return types need to be standardized.
     Ptr<Formatted> FormatToDefualt(Mat m)

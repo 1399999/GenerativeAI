@@ -1,4 +1,6 @@
-﻿namespace GenerativeAI.IntegratedConsole.Functionality.Utilities;
+﻿using System;
+
+namespace GenerativeAI.IntegratedConsole.Functionality.Utilities;
 
 public static class OpenCVUtilities
 {
@@ -85,11 +87,162 @@ public static class OpenCVUtilities
     // Function ID: 10.
     // Description: Displays a window which shows the standard image.
     // Paramater (winddowName): The name of the displayed window.
+    // Recemondation: To be used in conjunction with other methods.
     [DllImport(DllPath)]
     private static extern void RawDisplayWindow([MarshalAs(UnmanagedType.LPStr)] string winddowName);
 
+    // Function ID: 11.
+    // Description: Gets a column from an image.
+    // Paramater (col): The row of the image that will be extracted.
+    // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
     private static extern void RawGetColumn(int row);
+
+    // Function ID: 12.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskOnePixel(char[] list);
+
+    // Function ID: 13.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskTwoPixels(char[] list);
+
+    // Function ID: 15.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskThreePixels(char[] list);
+
+    // Function ID: 16.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskFourPixels(char[] list);
+
+    // Function ID: 17.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskFivePixels(char[] list);
+
+    // Function ID: 18.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskSixPixels(char[] list);
+
+    // Function ID: 19.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskSevenPixels(char[] list);
+
+    // Function ID: 20.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskEightPixels(char[] list);
+
+    // Function ID: 21.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskNinePixels(char[] list);
+
+    // Function ID: 22.
+    // Description: Applies a 1x1 pixel mask over the buffered image.
+    // Paramater (list): The mask itself.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void RawApplyMaskTenPixels(char[] list);
+
+    //   // Function ID: 23.
+    // [DllImport(DllPath)]
+    //private static extern void GetIntensityGrayScale(int x, int y)
+    //{
+    //	Scalar intensity = standardImg.at<uchar>(Point(x, y));
+    //	return intensity;
+    //}
+
+    //   // Function ID: 24.
+    // [DllImport(DllPath)]
+    //private static extern GetIntensityColor(int x, int y)
+    //{
+    //	Vec3b intensity = standardImg.at<Vec3b>(y, x);
+    //	uchar blue = intensity.val[0];
+    //	uchar green = intensity.val[1];
+    //	uchar red = intensity.val[2];
+    //}
+
+    //   // Function ID: 25.
+    // [DllImport(DllPath)]
+    //private static extern void GetIntensityFloatColor(int x, int y)
+    //{
+    //	Vec3f intensity = standardImg.at<Vec3f>(y, x);
+    //	float blue = intensity.val[0];
+    //	float green = intensity.val[1];
+    //	float red = intensity.val[2];
+    //}
+
+    // Function ID: 26.
+    // Description: Converts a color image into a gray scale image.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertColorToGray();
+
+    // Function ID: 27.
+    // Description: Converts a color image into a color image with alpha.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertColorToColorAlpha();
+
+    // Function ID: 28.
+    // Description: Converts a color image into an HLS color image.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertColorToHLS();
+
+    // Function ID: 29.
+    // Description: Converts a color image into an HSV color image.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertColorToHSV();
+
+    // Function ID: 30.
+    // Description: Switches the r and g color channels.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertBRGToRGB();
+
+    // Function ID: 31.
+    // Description: Switches the r and g color channels and adds an alpha channel.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertBRGToRGBA();
+
+    // Function ID: 32.
+    // Description: Switches the r and g color channels and adds an alpha channel.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertGrayToRGB();
+
+    // Function ID: 33.
+    // Description: Converts a grayscale image into a color image.
+    // Warning: Has to be used in conjunction with other methods.
+    [DllImport(DllPath)]
+    private static extern void ConvertGrayToColor();
 
     // Debug functions, since they take no paramters, they do not need validation.
 

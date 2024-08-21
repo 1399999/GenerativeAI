@@ -35,6 +35,14 @@ namespace OpenCVUtilities
     EXTERN_DLL_EXPORT void RawApplyMaskEightPixels(char list[64]);
     EXTERN_DLL_EXPORT void RawApplyMaskNinePixels(char list[81]);
     EXTERN_DLL_EXPORT void RawApplyMaskTenPixels(char list[100]);
+    EXTERN_DLL_EXPORT void ConvertColorToGray();
+    EXTERN_DLL_EXPORT void ConvertColorToColorAlpha();
+    EXTERN_DLL_EXPORT void ConvertColorToHLS();
+    EXTERN_DLL_EXPORT void ConvertColorToHSV();
+    EXTERN_DLL_EXPORT void ConvertBRGToRGB();
+    EXTERN_DLL_EXPORT void ConvertBRGToRGBA();
+    EXTERN_DLL_EXPORT void ConvertGrayToRGB();
+    EXTERN_DLL_EXPORT void ConvertGrayToColor();
 
     // Debug functions.
     EXTERN_DLL_EXPORT void DebugCheckImageEmpty();
