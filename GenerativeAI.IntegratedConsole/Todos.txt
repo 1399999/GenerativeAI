@@ -35,3 +35,5 @@ MC 16:
 	Adds a lot of different functions, all of them untested.
 MC 17:
 	Implements the basics of all of the easily implmentable functions in the OpenCVUtilites file.
+MC 18:
+	Implements a lot of the C# part of the OpenCV functions.

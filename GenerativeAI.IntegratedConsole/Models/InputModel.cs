@@ -4,4 +4,5 @@ public static class InputModel
 {
     public static string OutputDirectoryPath { get; set; } = "C:\\GenerativeAITests";
     public static int InitialImageNumber { get; set; }
+    public static bool IsImgColor { get; set; }
 }

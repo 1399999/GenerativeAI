@@ -6,7 +6,7 @@ public static class Program
 
     private static void Main(string[] args)
     {
-        Console.WriteLine("======================= Main Commit 17 =======================\n");
+        Console.WriteLine("======================= Main Commit 18 =======================\n");
 
         InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
 

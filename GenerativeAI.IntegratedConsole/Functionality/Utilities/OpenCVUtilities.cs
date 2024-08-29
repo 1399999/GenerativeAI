@@ -2,6 +2,8 @@
 
 public static class OpenCVUtilities
 {
+    #region Dll Imports
+
     const string DllPath = "C:\\Users\\mzheb\\source\\repos\\GenerativeAI\\x64\\Debug\\GenerativeAI.OpenCVAPI.dll";
 
     // Standard functions.
@@ -163,49 +165,49 @@ public static class OpenCVUtilities
     // Description: Converts a color image into a gray scale image.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertColorToGray();
+    private static extern void RawConvertColorToGray();
 
     // Function ID: 23.
     // Description: Converts a color image into a color image with alpha.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertColorToColorAlpha();
+    private static extern void RawConvertColorToColorAlpha();
 
     // Function ID: 24.
     // Description: Converts a color image into an HLS color image.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertColorToHLS();
+    private static extern void RawConvertColorToHLS();
 
     // Function ID: 25.
     // Description: Converts a color image into an HSV color image.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertColorToHSV();
+    private static extern void RawConvertColorToHSV();
 
     // Function ID: 26.
     // Description: Switches the r and g color channels.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertBRGToRGB();
+    private static extern void RawConvertBRGToRGB();
 
     // Function ID: 27.
     // Description: Switches the r and g color channels and adds an alpha channel.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertBRGToRGBA();
+    private static extern void RawConvertBRGToRGBA();
 
     // Function ID: 28.
     // Description: Switches the r and g color channels and adds an alpha channel.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertGrayToRGB();
+    private static extern void RawConvertGrayToRGB();
 
     // Function ID: 29.
     // Description: Converts a grayscale image into a color image.
     // Warning: Has to be used in conjunction with other methods.
     [DllImport(DllPath)]
-    private static extern void ConvertGrayToColor();
+    private static extern void RawConvertGrayToColor();
 
     // Function ID: 30.
     // Description: Increases the brightness of an image.
@@ -520,9 +522,12 @@ public static class OpenCVUtilities
     [DllImport(DllPath)]
     private static extern void RawGetCorners(int maxCorners);
 
-    // Debug functions, since they take no paramters, they do not need validation.
-    [DllImport(DllPath)]
-    public static extern void DebugCheckImageEmpty();
+    //// Debug functions, since they take no paramters, they do not need validation.
+    //[DllImport(DllPath)]
+    //public static extern void DebugCheckImageEmpty();
+
+    #endregion
+    #region Testing Function
 
     public static void Test()
     {
@@ -531,8 +536,6 @@ public static class OpenCVUtilities
 
         RawGetImgColor(path);
         RawWriteToFile(UtilityFunctions.GetNextOutputPath());
-
-        DebugCheckImageEmpty();
 
         RawGetImgGrayscale(path);
         RawWriteToFile(UtilityFunctions.GetNextOutputPath());
@@ -562,12 +565,17 @@ public static class OpenCVUtilities
         RawWriteToFile(UtilityFunctions.GetNextOutputPath());
     }
 
+    #endregion
+    #region Export Functions
+
     public static void GetImgColor(string path)
     {
         if (SystemModel.Work)
         {
             if (ValidatePath(path))
             {
+                InputModel.IsImgColor = true;
+
                 RawGetImgColor(path);
             }
 
@@ -584,6 +592,8 @@ public static class OpenCVUtilities
         {
             if (ValidatePath(path))
             {
+                InputModel.IsImgColor = false;
+
                 RawGetImgGrayscale(path);
             }
 
@@ -690,6 +700,513 @@ public static class OpenCVUtilities
         }
     }
 
+    public static void ConvertColorToGray()
+    {
+        if (SystemModel.Work)
+        {
+            if (InputModel.IsImgColor)
+            {
+                RawConvertColorToGray();
+            }
+
+            else
+            {
+                Program.WriteError("The image is not in a color format to convert it to grayscale.");
+            }
+        }
+    }
+
+    public static void ConvertColorToColorAlpha()
+    {
+        if (SystemModel.Work)
+        {
+            if (InputModel.IsImgColor)
+            {
+                RawConvertColorToColorAlpha();
+            }
+
+            else
+            {
+                Program.WriteError("The image is not in a color format to add an alpha channel to it.");
+            }
+        }
+    }
+
+    public static void ConvertColorToHLS()
+    {
+        if (SystemModel.Work)
+        {
+            if (InputModel.IsImgColor)
+            {
+                RawConvertColorToHLS();
+            }
+
+            else
+            {
+                Program.WriteError("The image is not in a color format to convert it to HLS.");
+            }
+        }
+    }
+
+    public static void ConvertColorToHSV()
+    {
+        if (SystemModel.Work)
+        {
+            if (InputModel.IsImgColor)
+            {
+                RawConvertColorToHSV();
+            }
+
+            else
+            {
+                Program.WriteError("The image is not in a color format to convert it to HSV.");
+            }
+        }
+    }
+
+    public static void SwitchColorChannels()
+    {
+        if (SystemModel.Work)
+        {
+            if (InputModel.IsImgColor)
+            {
+                RawConvertBRGToRGB();
+            }
+
+            else
+            {
+                Program.WriteError("The image does not have enogh color channels to switch them.");
+            }
+        }
+    }
+
+    public static void SwitchColorChannelsAlpha()
+    {
+        if (SystemModel.Work)
+        {
+            if (InputModel.IsImgColor)
+            {
+                RawConvertBRGToRGBA();
+            }
+
+            else
+            {
+                Program.WriteError("The image does not have enogh color channels to switch them.");
+            }
+        }
+    }
+
+    public static void ConvertGrayToColorSwitchChannels()
+    {
+        if (SystemModel.Work)
+        {
+            if (!InputModel.IsImgColor)
+            {
+                RawConvertGrayToRGB();
+            }
+
+            else
+            {
+                Program.WriteError("The image is not in a grayscale format.");
+            }
+        }
+    }
+
+    public static void ConvertGrayToColor()
+    {
+        if (SystemModel.Work)
+        {
+            if (!InputModel.IsImgColor)
+            {
+                RawConvertGrayToColor();
+            }
+
+            else
+            {
+                Program.WriteError("The image is not in a grayscale format.");
+            }
+        }
+    }
+
+    public static void IncreaseBrightness(double alpha, double beta) // Dont know about validation for this.
+    {
+        if (SystemModel.Work)
+        {
+            RawIncreaseBrightness(alpha, beta);
+        }
+    }
+
+    public static void IncreaseBrightnessSmart(double gamma) // Dont know about validation for this.
+    {
+        if (SystemModel.Work)
+        {
+            RawIncreaseBrightnessSmart(gamma);
+        }
+    }
+
+    public static void AddConstMargin(ushort top, ushort bottom, ushort left, ushort right, byte r, byte g, byte b)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(top) && ValidateDimension(bottom) && ValidateDimension(left) && ValidateDimension(right))
+            {
+                RawAddConstMargin(top, bottom, left, right, r, g, b);
+            }
+        }
+    }
+
+    public static void AddMirrorMargin(ushort top, ushort bottom, ushort left, ushort right)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(top) && ValidateDimension(bottom) && ValidateDimension(left) && ValidateDimension(right))
+            {
+                RawAddMirrorMargin(top, bottom, left, right);
+            }
+        }
+    }
+
+    public static void AddReplicatedMargin(ushort top, ushort bottom, ushort left, ushort right)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(top) && ValidateDimension(bottom) && ValidateDimension(left) && ValidateDimension(right))
+            {
+                RawAddReplicatedMargin(top, bottom, left, right);
+            }
+        }
+    }
+
+    public static void AddWrapMargin(ushort top, ushort bottom, ushort left, ushort right)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(top) && ValidateDimension(bottom) && ValidateDimension(left) && ValidateDimension(right))
+            {
+                RawAddWrapMargin(top, bottom, left, right);
+            }
+        }
+    }
+
+    public static void DrawCurve(ushort centerX, ushort centerY, ushort width, ushort height, double angle, ushort thickness, double startAngle, double endAngle, byte r, byte g, byte b)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(width) && ValidateDimension(height) && ValidateSubsection(centerX) && ValidateDimension(centerY) && ValidateAngle(angle) && ValidateAngle(startAngle) && ValidateAngle(endAngle) && ValidateDimension(thickness))
+            {
+                RawDrawCurve(centerX, centerY, width, height, angle, thickness, startAngle, endAngle, r, g, b);
+            }
+        }
+    }
+
+    public static void DrawFilledCircle(ushort centerX, ushort centerY, ushort radius, byte r, byte g, byte b)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(centerX) && ValidateDimension(centerY) && ValidateDimension(radius))
+            {
+                RawDrawFilledCircle(centerX, centerY, radius, r, g, b);
+            }
+        }
+    }
+
+    public static void DrawLine(ushort startX, ushort startY, ushort endX, ushort endY, ushort thickness)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(startX) && ValidateDimension(startY) && ValidateDimension(endX) && ValidateDimension(endY) && ValidateDimension(thickness))
+            {
+                RawDrawLine(startX, startY, endX, endY, thickness);
+            }
+        }
+    }
+
+    public static void DrawRandomLine(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2, byte r, byte g, byte b, ushort thickness)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2) && ValidateDimension(thickness))
+            {
+                RawDrawRandomLine((int) itterations, x1, y1, x2, y2, r, g, b, thickness);
+            }
+        }
+    }
+
+    public static void DrawRandomLineRandomColor(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2, ushort thickness)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2) && ValidateDimension(thickness))
+            {
+                RawDrawRandomLineRandomColor((int) itterations, x1, y1, x2, y2, thickness);
+            }
+        }
+    }
+
+    public static void DrawRandomHollowRectangle(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2, byte r, byte g, byte b, ushort thickness)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2) && ValidateDimension(thickness))
+            {
+                RawDrawRandomLineRandomColor((int) itterations, x1, y1, x2, y2, thickness);
+            }
+        }
+    }
+
+    public static void DrawRandomHollowRectangleRandomColor(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2, ushort thickness)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2) && ValidateDimension(thickness))
+            {
+                RawDrawRandomHollowRectangleRandomColor((int)itterations, x1, y1, x2, y2, thickness);
+            }
+        }
+    }
+
+    public static void DisplayRandomTextPosition(uint itterations, [MarshalAs(UnmanagedType.LPTStr)] string text, ushort x1, ushort y1, ushort x2, ushort y2, byte r, byte g, byte b)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
+            {
+                RawDisplayRandomTextPosition((int)itterations, text, x1, y1, x2, y2, r, g, b);
+            }
+        }
+    }
+
+    public static void DisplayRandomTextPositionRandomColor(uint itterations, [MarshalAs(UnmanagedType.LPTStr)] string text, ushort x1, ushort y1, ushort x2, ushort y2)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
+            {
+                RawDisplayRandomTextPositionRandomColor((int)itterations, text, x1, y1, x2, y2);
+            }
+        }
+    }
+
+    public static void BlurImage(ushort blurSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(blurSize))
+            {
+                RawBlurImage(blurSize);
+            }
+        }
+    }
+
+    public static void ErodeImageRectangle(ushort blurSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(blurSize))
+            {
+                RawErodeImageRectangle(blurSize);
+            }
+        }
+    }
+
+    public static void ErodeImageEllipse(ushort blurSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(blurSize))
+            {
+                RawErodeImageEllipse(blurSize);
+            }
+        }
+    }
+
+    public static void ErodeImage(ushort blurSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(blurSize))
+            {
+                RawErodeImage(blurSize);
+            }
+        }
+    }
+
+    public static void DialateImageRectangle(ushort blurSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(blurSize))
+            {
+                RawDialateImageRectangle(blurSize);
+            }
+        }
+    }
+
+    public static void DialateImageCross(ushort blurSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(blurSize))
+            {
+                RawDialateImageCross(blurSize);
+            }
+        }
+    }
+
+    public static void DialateImage(ushort blurSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(blurSize))
+            {
+                RawDialateImage(blurSize);
+            }
+        }
+    }
+
+    public static void RemoveBackgroundNoise(ushort kernelSize)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateOddNumber(kernelSize))
+            {
+                RawDialateImage(kernelSize);
+            }
+        }
+    }
+
+    public static void GetHorizontalLines()
+    {
+        if (SystemModel.Work)
+        {
+            RawGetHorizontalLines();
+        }
+    }
+
+    public static void GetVerticalLines()
+    {
+        if (SystemModel.Work)
+        {
+            RawGetVerticalLines();
+        }
+    }
+
+    public static void ConvertToBinary()
+    {
+        if (SystemModel.Work)
+        {
+            RawConvertToBinary();
+        }
+    }
+
+    public static void ConvertToInverseBinary()
+    {
+        if (SystemModel.Work)
+        {
+            RawConvertToInverseBinary();
+        }
+    }
+
+    public static void SmoothEdges()
+    {
+        if (SystemModel.Work)
+        {
+            RawSmoothEdges();
+        }
+    }
+
+    public static void LowThresholdImage(byte thresholdValue)
+    {
+        if (SystemModel.Work)
+        {
+            RawLowThresholdImage(thresholdValue);
+        }
+    }
+
+    public static void HighThresholdImage(byte thresholdValue)
+    {
+        if (SystemModel.Work)
+        {
+            RawHighThresholdImage(thresholdValue);
+        }
+    }
+
+    public static void DetectEdges(byte thresholdValue)
+    {
+        if (SystemModel.Work)
+        {
+            RawDetectEdges();
+        }
+    }
+
+    public static void TiltImage(double angle, double scale) // Scale will go unvalidated.
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateAngle(angle))
+            {
+                RawTiltImage(angle, scale);
+            }
+        }
+    }
+
+    public static void DrawRandomFilledTriangles(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
+            {
+                RawDrawRandomFilledTriangles((int) itterations, x1, y1, x2, y2);
+            }
+        }
+    }
+
+    public static void DrawRandomHollowTriangles(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2)
+    {
+        if (SystemModel.Work)
+        {
+            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
+            {
+                RawDrawRandomHollowTriangles((int) itterations, x1, y1, x2, y2);
+            }
+        }
+    }
+
+    public static void GetContours(byte thresh)
+    {
+        if (SystemModel.Work)
+        {
+            RawGetContours(thresh);
+        }
+    }
+
+    public static void GetConvexHull(byte thresh)
+    {
+        if (SystemModel.Work)
+        {
+            RawGetConvexHull(thresh);
+        }
+    }
+
+    public static void WatershedImage()
+    {
+        if (SystemModel.Work)
+        {
+            RawWatershedImage();
+        }
+    }
+
+    public static void GetCorners(int maxCorners)
+    {
+        if (SystemModel.Work)
+        {
+            RawGetCorners(maxCorners);
+        }
+    }
+
+    #endregion
+    #region Validation
+
     public static bool ValidatePath(string path) => File.Exists(path);
 
     public static bool ValidateDimension(ushort dimension)
@@ -730,4 +1247,26 @@ public static class OpenCVUtilities
     {
         return true;
     }
+
+    public static bool ValidateAngle(double angle)
+    {
+        if (angle < 0 && angle > 360)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static bool ValidateOddNumber(ushort num)
+    {
+        if (num % 2 != 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    #endregion
 }

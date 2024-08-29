@@ -49,7 +49,7 @@ public enum OptionEnum
     BlurImage = 45,
     ErodeImageRectangle = 46,
     ErodeImageCross = 47,
-    RawErodeImageEllipse = 48,
+    ErodeImageEllipse = 48,
     ErodeImage = 49,
     DialateImageRectangle = 50,
     DialateImageCross = 51,
