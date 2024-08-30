@@ -436,7 +436,15 @@ namespace OpenCVUtilities
     // Warning: Has to be used in conjunction with other methods.
     EXTERN_DLL_EXPORT void RawAddConstMargin(int top, int bottom, int left, int right, int r, int g, int b)
 	{
-		copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_CONSTANT, Scalar(b, g, r));
+		if (top < standardImg.rows || bottom < standardImg.rows || left < standardImg.cols || right < standardImg.cols)
+		{
+			copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_CONSTANT, Scalar(b, g, r));
+		}
+
+		else
+		{
+			WriteLineError("The specified dimensions where outside of the image dimensions.");
+		}
 	}
 
 	// Function ID: 33.
@@ -445,7 +453,15 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawAddMirrorMargin(int top, int bottom, int left, int right)
 	{
-		copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_DEFAULT);
+		if (top < standardImg.rows || bottom < standardImg.rows || left < standardImg.cols || right < standardImg.cols)
+		{
+			copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_DEFAULT);
+		}
+
+		else
+		{
+			WriteLineError("The specified dimensions where outside of the image dimensions.");
+		}
 	}
 
 	// Function ID: 34.
@@ -454,7 +470,15 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawAddReplicatedMargin(int top, int bottom, int left, int right)
 	{
-		copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_REPLICATE);
+		if (top < standardImg.rows || bottom < standardImg.rows || left < standardImg.cols || right < standardImg.cols)
+		{
+			copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_REPLICATE);
+		}
+
+		else
+		{
+			WriteLineError("The specified dimensions where outside of the image dimensions.");
+		}
 	}
 
 	// Function ID: 35.
@@ -463,7 +487,15 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawAddWrapMargin(int top, int bottom, int left, int right)
 	{
-		copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_WRAP, Scalar(0, 0, 0));
+		if (top < standardImg.rows || bottom < standardImg.rows || left < standardImg.cols || right < standardImg.cols)
+		{
+			copyMakeBorder(standardImg, standardImg, top, bottom, left, right, BORDER_WRAP, Scalar(0, 0, 0));
+		}
+
+		else
+		{
+			WriteLineError("The specified dimensions where outside of the image dimensions.");
+		}
 	}
 
     // Function ID: 36.
@@ -476,15 +508,23 @@ namespace OpenCVUtilities
     // Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawDrawCurve(int centerX, int centerY, int width, int height, double angle, int thickness, double startAngle, double endAngle, int r, int g, int b)
 	{
-		ellipse(standardImg,
-			Point(centerX, centerY),
-			Size(width, height),
-			angle,
-			startAngle,
-			endAngle,
-			Scalar(b, g, r),
-			thickness,
-			1);
+		if (centerX < standardImg.rows || centerY < standardImg.rows || width < standardImg.cols || height < standardImg.cols || thickness < standardImg.rows || thickness < standardImg.cols)
+		{
+			ellipse(standardImg,
+				Point(centerX, centerY),
+				Size(width, height),
+				angle,
+				startAngle,
+				endAngle,
+				Scalar(b, g, r),
+				thickness,
+				1);
+		}
+
+		else
+		{
+			WriteLineError("The specified dimensions where outside of the image dimensions.");
+		}
 	}
 
     // Function ID: 37.
@@ -495,12 +535,20 @@ namespace OpenCVUtilities
     // Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawDrawFilledCircle(int centerX, int centerY, int radius, int r, int g, int b)
 	{
-		circle(standardImg,
-			Point(centerX, centerY),
-			radius,
-			Scalar(b, g, r),
-			FILLED,
-			LINE_8);
+		if (centerX < standardImg.rows || centerY < standardImg.rows)
+		{
+			circle(standardImg,
+				Point(centerX, centerY),
+				radius,
+				Scalar(b, g, r),
+				FILLED,
+				LINE_8);
+		}
+
+		else
+		{
+			WriteLineError("The specified dimensions where outside of the image dimensions.");
+		}
 	}
 
     // Function ID: 38.
@@ -511,14 +559,22 @@ namespace OpenCVUtilities
     // Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawDrawLine(int startX, int startY, int endX, int endY, int thickness)
 	{
-		int lineType = LINE_8;
+		if (startX < standardImg.rows || startY < standardImg.rows || endX < standardImg.rows || endY < standardImg.rows)
+		{
+			int lineType = LINE_8;
 
-		line(standardImg,
-			Point(startX, startY),
-			Point(endX, endY),
-			Scalar(0, 0, 0),
-			thickness,
-			lineType);
+			line(standardImg,
+				Point(startX, startY),
+				Point(endX, endY),
+				Scalar(0, 0, 0),
+				thickness,
+				lineType);
+		}
+
+		else
+		{
+			WriteLineError("The specified dimensions where outside of the image dimensions.");
+		}
 	}
 
     // Description: Gets a random color.
@@ -680,7 +736,9 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawBlurImage(int blurSize)
 	{
-		medianBlur(standardImg, standardImg, blurSize);
+		
+			medianBlur(standardImg, standardImg, blurSize);
+		
 	}
 
 	// Function ID: 46.
@@ -689,13 +747,21 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawErodeImageRectangle(int erosionSize)
 	{
-		int erosion_type = MORPH_RECT;
+		if (erosionSize % 2 == 0)
+		{
+			int erosion_type = MORPH_RECT;
 
-		Mat element = getStructuringElement(erosion_type,
-			Size(2 * erosionSize + 1, 2 * erosionSize + 1),
-			Point(erosionSize, erosionSize));
+			Mat element = getStructuringElement(erosion_type,
+				Size(2 * erosionSize + 1, 2 * erosionSize + 1),
+				Point(erosionSize, erosionSize));
 
-		erode(standardImg, standardImg, element);
+			erode(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The blur size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 47.
@@ -704,13 +770,21 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawErodeImageCross(int erosionSize)
 	{
-		int erosion_type = MORPH_CROSS;
+		if (erosionSize % 2 == 0)
+		{
+			int erosion_type = MORPH_CROSS;
 
-		Mat element = getStructuringElement(erosion_type,
-			Size(2 * erosionSize + 1, 2 * erosionSize + 1),
-			Point(erosionSize, erosionSize));
+			Mat element = getStructuringElement(erosion_type,
+				Size(2 * erosionSize + 1, 2 * erosionSize + 1),
+				Point(erosionSize, erosionSize));
 
-		erode(standardImg, standardImg, element);
+			erode(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The erosion size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 48.
@@ -719,13 +793,21 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawErodeImageEllipse(int erosionSize)
 	{
-		int erosion_type = MORPH_ELLIPSE;
+		if (erosionSize % 2 == 0)
+		{
+			int erosion_type = MORPH_ELLIPSE;
 
-		Mat element = getStructuringElement(erosion_type,
-			Size(2 * erosionSize + 1, 2 * erosionSize + 1),
-			Point(erosionSize, erosionSize));
+			Mat element = getStructuringElement(erosion_type,
+				Size(2 * erosionSize + 1, 2 * erosionSize + 1),
+				Point(erosionSize, erosionSize));
 
-		erode(standardImg, standardImg, element);
+			erode(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The blur size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 49.
@@ -735,13 +817,21 @@ namespace OpenCVUtilities
 	// May be the same thing as erode image cross.
 	EXTERN_DLL_EXPORT void RawErodeImage(int erosionSize)
 	{
-		int erosion_type = MORPH_ERODE;
+		if (erosionSize % 2 == 0)
+		{
+			int erosion_type = MORPH_ERODE;
 
-		Mat element = getStructuringElement(erosion_type,
-			Size(2 * erosionSize + 1, 2 * erosionSize + 1),
-			Point(erosionSize, erosionSize));
+			Mat element = getStructuringElement(erosion_type,
+				Size(2 * erosionSize + 1, 2 * erosionSize + 1),
+				Point(erosionSize, erosionSize));
 
-		erode(standardImg, standardImg, element);
+			erode(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The blur size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 50.
@@ -750,13 +840,21 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawDialateImageRectangle(int dialationSize)
 	{
-		int dilation_type = MORPH_RECT;
+		if (dialationSize % 2 == 0)
+		{
+			int dilation_type = MORPH_RECT;
 
-		Mat element = getStructuringElement(dilation_type,
-			Size(2 * dialationSize + 1, 2 * dialationSize + 1),
-			Point(dialationSize, dialationSize));
+			Mat element = getStructuringElement(dilation_type,
+				Size(2 * dialationSize + 1, 2 * dialationSize + 1),
+				Point(dialationSize, dialationSize));
 
-		dilate(standardImg, standardImg, element);
+			dilate(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The blur size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 51.
@@ -765,13 +863,21 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawDialateImageCross(int dialationSize)
 	{
-		int dilation_type = MORPH_CROSS;
+		if (dialationSize % 2 == 0)
+		{
+			int dilation_type = MORPH_CROSS;
 
-		Mat element = getStructuringElement(dilation_type,
-			Size(2 * dialationSize + 1, 2 * dialationSize + 1),
-			Point(dialationSize, dialationSize));
+			Mat element = getStructuringElement(dilation_type,
+				Size(2 * dialationSize + 1, 2 * dialationSize + 1),
+				Point(dialationSize, dialationSize));
 
-		dilate(standardImg, standardImg, element);
+			dilate(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The dialation size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 52.
@@ -780,13 +886,21 @@ namespace OpenCVUtilities
 	// Warning: Has to be used in conjunction with other methods.
 	EXTERN_DLL_EXPORT void RawDialateImageEllipse(int dialationSize)
 	{
-		int dilation_type = MORPH_ELLIPSE;
+		if (dialationSize % 2 == 0)
+		{
+			int dilation_type = MORPH_ELLIPSE;
 
-		Mat element = getStructuringElement(dilation_type,
-			Size(2 * dialationSize + 1, 2 * dialationSize + 1),
-			Point(dialationSize, dialationSize));
+			Mat element = getStructuringElement(dilation_type,
+				Size(2 * dialationSize + 1, 2 * dialationSize + 1),
+				Point(dialationSize, dialationSize));
 
-		dilate(standardImg, standardImg, element);
+			dilate(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The dialation size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 53.
@@ -796,13 +910,21 @@ namespace OpenCVUtilities
 	// May be the same thing as dialate image cross.
 	EXTERN_DLL_EXPORT void RawDialateImage(int dialationSize)
 	{
-		int dilation_type = MORPH_DILATE;
+		if (dialationSize % 2 == 0)
+		{
+			int dilation_type = MORPH_DILATE;
 
-		Mat element = getStructuringElement(dilation_type,
-			Size(2 * dialationSize + 1, 2 * dialationSize + 1),
-			Point(dialationSize, dialationSize));
+			Mat element = getStructuringElement(dilation_type,
+				Size(2 * dialationSize + 1, 2 * dialationSize + 1),
+				Point(dialationSize, dialationSize));
 
-		dilate(standardImg, standardImg, element);
+			dilate(standardImg, standardImg, element);
+		}
+
+		else
+		{
+			WriteLineError("The dialation size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 54.
@@ -812,13 +934,21 @@ namespace OpenCVUtilities
 	// Warning: The kernelSize has to be odd.
 	EXTERN_DLL_EXPORT void RawRemoveBackgroundNoise(int kernelSize)
 	{
-		int dilation_type = MORPH_OPEN;
+		if (kernelSize % 2 == 0)
+		{
+			int dilation_type = MORPH_OPEN;
 
-		Mat element = getStructuringElement(dilation_type,
-			Size(2 * kernelSize + 1, 2 * kernelSize + 1),
-			Point(kernelSize, kernelSize));
+			Mat element = getStructuringElement(dilation_type,
+				Size(2 * kernelSize + 1, 2 * kernelSize + 1),
+				Point(kernelSize, kernelSize));
 
-		morphologyEx(standardImg, standardImg, dilation_type, element);
+			morphologyEx(standardImg, standardImg, dilation_type, element);
+		}
+
+		else
+		{
+			WriteLineError("The dialation size paramter is not odd.");
+		}
 	}
 
 	// Function ID: 55.
@@ -1348,9 +1478,8 @@ namespace OpenCVUtilities
     }
 
 	// Utilites
-	Mat RawCreateArrayZerosCopy(int width, int height) 
+	void WriteLineError(string message) 
 	{
-		Mat z = Mat::zeros(width, height, CV_8UC1);
-		return z;
+		cout << "[C++ Non-Fatal Error] " << message;
 	}
 }

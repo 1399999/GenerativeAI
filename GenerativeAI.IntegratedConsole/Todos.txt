@@ -37,3 +37,6 @@ MC 17:
 	Implements the basics of all of the easily implmentable functions in the OpenCVUtilites file.
 MC 18:
 	Implements a lot of the C# part of the OpenCV functions.
+MC 19:
+	Implements C++ side of vaildation.
+	Small commit to fix a bug.

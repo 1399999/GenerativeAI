@@ -86,6 +86,7 @@ namespace OpenCVUtilities
 
     // Debug functions.
     EXTERN_DLL_EXPORT void DebugCheckImageEmpty();
+    void WriteLineError(string message);
 
     // Temporary functions.
     Ptr<Formatted> FormatToDefualt(Mat m);

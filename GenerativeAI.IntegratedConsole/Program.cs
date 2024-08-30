@@ -2,11 +2,11 @@
 
 public static class Program
 {
-    private const string regexValidationExpression = @"(0[0-9]|1[0-1].){1,}";
+    private const string regexValidationExpression = @"(0[0-9]|6[0-9].){1,}";
 
     private static void Main(string[] args)
     {
-        Console.WriteLine("======================= Main Commit 18 =======================\n");
+        Console.WriteLine("======================= Main Commit 19 =======================\n");
 
         InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
 

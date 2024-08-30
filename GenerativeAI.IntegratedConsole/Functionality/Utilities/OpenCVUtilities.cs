@@ -522,10 +522,6 @@ public static class OpenCVUtilities
     [DllImport(DllPath)]
     private static extern void RawGetCorners(int maxCorners);
 
-    //// Debug functions, since they take no paramters, they do not need validation.
-    //[DllImport(DllPath)]
-    //public static extern void DebugCheckImageEmpty();
-
     #endregion
     #region Testing Function
 
