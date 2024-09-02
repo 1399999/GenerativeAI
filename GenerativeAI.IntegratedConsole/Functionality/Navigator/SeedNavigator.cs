@@ -2,81 +2,88 @@
 
 public static class SeedNavigator
 {
-    public static void Navigate(int[] vectors)
+    public static void Navigate()
     {
-        foreach (var vector in vectors)
+        foreach (var function in InputModel.StandardInput)
         {
-            OptionEnum option = (OptionEnum)vector;
+            if (function.FunctionType == OptionEnum.WriteToFile && string.IsNullOrEmpty(function.OutputPath))
+            {
+                function.OutputPath = UtilityFunctions.GetNextOutputPath();
+            }
 
-            option.ExecuteOption();
+            function.ExecuteOption();
         }
     }
 
-    public static void ExecuteOption(this OptionEnum option)
+    #pragma warning disable CS8629
+
+    public static void ExecuteOption(this JsonInput input)
     {
-        if (option == OptionEnum.GetImgColor) // 0
+        OptionEnum option = input.FunctionType;
+
+        if (option == OptionEnum.GetColorImg) // 0
         {
-            OpenCVUtilities.GetImgColor(SystemModel.StaticInput.InputPath);
+            OpenCVUtilities.GetImgColor(input.InputPath);
         }
 
-        else if (option == OptionEnum.GetImgGrayscale) // 1
+        else if (option == OptionEnum.GetGrayscaleImg) // 1
         {
-            OpenCVUtilities.GetImgGrayscale(SystemModel.StaticInput.InputPath);
+            OpenCVUtilities.GetImgGrayscale(input.InputPath);
         }
 
         else if (option == OptionEnum.CreateRect) // 2
         {
-            OpenCVUtilities.CreateRect(SystemModel.StaticInput.Width,
-                SystemModel.StaticInput.Height,
-                SystemModel.StaticInput.RedChannel,
-                SystemModel.StaticInput.BlueChannel,
-                SystemModel.StaticInput.GreenChannel);
+            OpenCVUtilities.CreateRect((byte) input.Width,
+                (byte) input.Height,
+                (byte) input.RedChannel,
+                (byte) input.BlueChannel,
+                (byte) input.GreenChannel);
         }
 
         else if (option == OptionEnum.WriteToFile) // 3
         {
-            OpenCVUtilities.WriteToFile(SystemModel.StaticInput.OutputPath);
+            OpenCVUtilities.WriteToFile(input.OutputPath);
         }
 
         else if (option == OptionEnum.CreateArrayOnes) // 4
         {
-            OpenCVUtilities.CreateArrayOnes(SystemModel.StaticInput.Width,
-                SystemModel.StaticInput.Height,
-                SystemModel.StaticInput.DivideBy);
+            OpenCVUtilities.CreateArrayOnes((byte) input.Width,
+                (byte) input.Height,
+                (byte) input.DivideBy);
         }
 
         else if (option == OptionEnum.CreateArrayZeros) // 5
         {
-            OpenCVUtilities.CreateArrayZeros(SystemModel.StaticInput.Width,
-                SystemModel.StaticInput.Height);
+            OpenCVUtilities.CreateArrayZeros((byte) input.Width,
+                (byte) input.Height);
         }
 
         else if (option == OptionEnum.GetRow) // 6
         {
-            OpenCVUtilities.GetRow(SystemModel.StaticInput.Row);
+            OpenCVUtilities.GetRow(input.Row);
         }
 
         else if (option == OptionEnum.CreateRandomArray) // 7
         {
-            OpenCVUtilities.CreateRandomArray(SystemModel.StaticInput.Width,
-                SystemModel.StaticInput.Height,
-                SystemModel.StaticInput.MinRGB,
-                SystemModel.StaticInput.MaxRGB);
+            OpenCVUtilities.CreateRandomArray((byte) input.Width,
+                (byte) input.Height,
+                (byte) input.MinRGB,
+                (byte) input.MaxRGB);
         }
 
         else if (option == OptionEnum.GetRegionOfInterest) // 8
         {
-            OpenCVUtilities.GetRegionOfInterest(SystemModel.StaticInput.X1, SystemModel.StaticInput.Y1, SystemModel.StaticInput.X2, SystemModel.StaticInput.Y2);
+            OpenCVUtilities.GetRegionOfInterest(input.X1, input.Y1, input.X2, input.Y2);
         }
 
         else if (option == OptionEnum.DisplayWindow) // 9
         {
-            OpenCVUtilities.DisplayWindow(SystemModel.StaticInput.WindowName);
+            OpenCVUtilities.DisplayWindow(input.WindowName);
         }
 
         else if (option == OptionEnum.GetColumn) // 10
         {
-            OpenCVUtilities.GetColumn(SystemModel.StaticInput.Column);
+            OpenCVUtilities.GetColumn(input.Column);
         }
 
         else if (option == OptionEnum.ApplyMaskOnePixel) // 11
@@ -169,190 +176,190 @@ public static class SeedNavigator
         }
         else if (option == OptionEnum.IncreaseBrightness) // 30
         {
-            OpenCVUtilities.IncreaseBrightness(SystemModel.StaticInput.Alpha, 
-                SystemModel.StaticInput.Beta);
+            OpenCVUtilities.IncreaseBrightness(input.Alpha, 
+                input.Beta);
         }
 
         else if (option == OptionEnum.IncreaseBrightnessSmart) // 31
         {
-            OpenCVUtilities.IncreaseBrightnessSmart(SystemModel.StaticInput.Gamma);
+            OpenCVUtilities.IncreaseBrightnessSmart(input.Gamma);
         }
 
         else if (option == OptionEnum.AddConstMargin) // 32
         {
-            OpenCVUtilities.AddConstMargin(SystemModel.StaticInput.Top, 
-                SystemModel.StaticInput.Bottom, 
-                SystemModel.StaticInput.Left, 
-                SystemModel.StaticInput.Right, 
-                SystemModel.StaticInput.RedChannel, 
-                SystemModel.StaticInput.BlueChannel, 
-                SystemModel.StaticInput.GreenChannel);
+            OpenCVUtilities.AddConstMargin(input.Top, 
+                input.Bottom, 
+                input.Left, 
+                input.Right,
+                (byte) input.RedChannel,
+                (byte) input.BlueChannel,
+                (byte) input.GreenChannel);
         }
 
         else if (option == OptionEnum.AddMirrorMargin) // 33
         {
-            OpenCVUtilities.AddMirrorMargin(SystemModel.StaticInput.Top, 
-                SystemModel.StaticInput.Bottom, 
-                SystemModel.StaticInput.Left, 
-                SystemModel.StaticInput.Right);
+            OpenCVUtilities.AddMirrorMargin(input.Top, 
+                input.Bottom, 
+                input.Left, 
+                input.Right);
         }
 
         else if (option == OptionEnum.AddReplicatedMargin) // 34
         {
-            OpenCVUtilities.AddReplicatedMargin(SystemModel.StaticInput.Top, 
-                SystemModel.StaticInput.Bottom, 
-                SystemModel.StaticInput.Left, 
-                SystemModel.StaticInput.Right);
+            OpenCVUtilities.AddReplicatedMargin(input.Top, 
+                input.Bottom, 
+                input.Left, 
+                input.Right);
         }
 
         else if (option == OptionEnum.AddWrapMargin) // 35
         {
-            OpenCVUtilities.AddWrapMargin(SystemModel.StaticInput.Top, 
-                SystemModel.StaticInput.Bottom, 
-                SystemModel.StaticInput.Left, 
-                SystemModel.StaticInput.Right);
+            OpenCVUtilities.AddWrapMargin(input.Top, 
+                input.Bottom, 
+                input.Left, 
+                input.Right);
         }
 
         else if (option == OptionEnum.DrawCurve) // 36
         {
-            OpenCVUtilities.DrawCurve(SystemModel.StaticInput.CenterX,
-                SystemModel.StaticInput.CenterY, 
-                SystemModel.StaticInput.CirleWidth, 
-                SystemModel.StaticInput.CirleHeight, 
-                SystemModel.StaticInput.Angle, 
-                SystemModel.StaticInput.Thickness, 
-                SystemModel.StaticInput.StartAngle, 
-                SystemModel.StaticInput.EndAngle, 
-                SystemModel.StaticInput.RedChannel, 
-                SystemModel.StaticInput.GreenChannel, 
-                SystemModel.StaticInput.BlueChannel);
+            OpenCVUtilities.DrawCurve(input.CenterX,
+                input.CenterY, 
+                input.CirleWidth, 
+                input.CirleHeight, 
+                input.Angle, 
+                input.Thickness, 
+                input.StartAngle, 
+                input.EndAngle,
+                (byte) input.RedChannel,
+                (byte)input.GreenChannel,
+                (byte)input.BlueChannel);
         }
 
         else if (option == OptionEnum.DrawFilledCircle) // 37
         {
-            OpenCVUtilities.DrawFilledCircle(SystemModel.StaticInput.CenterX,
-                SystemModel.StaticInput.CenterY,
-                SystemModel.StaticInput.Radius,
-                SystemModel.StaticInput.RedChannel,
-                SystemModel.StaticInput.GreenChannel,
-                SystemModel.StaticInput.BlueChannel);
+            OpenCVUtilities.DrawFilledCircle(input.CenterX,
+                input.CenterY,
+                input.Radius,
+                (byte)input.RedChannel,
+                (byte)input.GreenChannel,
+                (byte)input.BlueChannel);
         }
 
         else if (option == OptionEnum.DrawLine) // 38
         {
-            OpenCVUtilities.DrawLine(SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2,
-                SystemModel.StaticInput.Thickness);
+            OpenCVUtilities.DrawLine(input.X1,
+                input.Y1,
+                input.X2,
+                input.Y2,
+                input.Thickness);
         }
 
         else if (option == OptionEnum.DrawRandomLine) // 39
         {
-            OpenCVUtilities.DrawRandomLine(SystemModel.StaticInput.Itterations, 
-                SystemModel.StaticInput.X1, 
-                SystemModel.StaticInput.Y1, 
-                SystemModel.StaticInput.X2, 
-                SystemModel.StaticInput.Y2,
-                SystemModel.StaticInput.RedChannel,
-                SystemModel.StaticInput.GreenChannel,
-                SystemModel.StaticInput.BlueChannel,
-                SystemModel.StaticInput.Thickness);
+            OpenCVUtilities.DrawRandomLine(input.Itterations, 
+                input.X1, 
+                input.Y1, 
+                input.X2, 
+                input.Y2,
+                (byte) input.RedChannel,
+                (byte) input.GreenChannel,
+                (byte) input.BlueChannel,
+                input.Thickness);
         }
 
         else if (option == OptionEnum.DrawRandomLineRandomColor) // 40
         {
-            OpenCVUtilities.DrawRandomLineRandomColor(SystemModel.StaticInput.Itterations,
-                SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2,
-                SystemModel.StaticInput.Thickness);
+            OpenCVUtilities.DrawRandomLineRandomColor(input.Itterations,
+                input.X1,
+                input.Y1,
+                input.X2,
+                input.Y2,
+                input.Thickness);
         }
 
         else if (option == OptionEnum.DrawRandomHollowRectangle) // 41
         {
-            OpenCVUtilities.DrawRandomHollowRectangle(SystemModel.StaticInput.Itterations,
-                SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2,
-                SystemModel.StaticInput.RedChannel,
-                SystemModel.StaticInput.GreenChannel,
-                SystemModel.StaticInput.BlueChannel,
-                SystemModel.StaticInput.Thickness);
+            OpenCVUtilities.DrawRandomHollowRectangle(input.Itterations,
+                input.X1,
+                input.Y1,
+                input.X2,
+                input.Y2,
+                (byte)input.RedChannel,
+                (byte) input.GreenChannel,
+                (byte) input.BlueChannel,
+                input.Thickness);
         }
 
         else if (option == OptionEnum.DrawRandomHollowRectangleRandomColor) // 42
         {
-            OpenCVUtilities.DrawRandomHollowRectangleRandomColor(SystemModel.StaticInput.Itterations,
-                SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2,
-                SystemModel.StaticInput.Thickness);
+            OpenCVUtilities.DrawRandomHollowRectangleRandomColor(input.Itterations,
+                input.X1,
+                input.Y1,
+                input.X2,
+                input.Y2,
+                input.Thickness);
         }
 
         else if (option == OptionEnum.DisplayRandomTextPosition) // 43
         {
-            OpenCVUtilities.DisplayRandomTextPosition(SystemModel.StaticInput.Itterations,
-                SystemModel.StaticInput.Text,
-                SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2,
-                SystemModel.StaticInput.RedChannel,
-                SystemModel.StaticInput.GreenChannel,
-                SystemModel.StaticInput.BlueChannel);
+            OpenCVUtilities.DisplayRandomTextPosition(input.Itterations,
+                input.Text,
+                input.X1,
+                input.Y1,
+                input.X2,
+                input.Y2,
+                (byte) input.RedChannel,
+                (byte) input.GreenChannel,
+                (byte) input.BlueChannel);
         }
         else if (option == OptionEnum.DisplayRandomTextPositionRandomColor) // 44
         {
-            OpenCVUtilities.DisplayRandomTextPositionRandomColor(SystemModel.StaticInput.Itterations,
-                SystemModel.StaticInput.Text,
-                SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2);
+            OpenCVUtilities.DisplayRandomTextPositionRandomColor(input.Itterations,
+                input.Text,
+                input.X1,
+                input.Y1,
+                input.X2,
+                input.Y2);
         }
 
         else if (option == OptionEnum.BlurImage) // 45
         {
-            OpenCVUtilities.BlurImage(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.BlurImage(input.BlurSize);
         }
 
         else if (option == OptionEnum.ErodeImageRectangle) // 46
         {
-            OpenCVUtilities.ErodeImageRectangle(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.ErodeImageRectangle(input.BlurSize);
         }
 
         else if (option == OptionEnum.ErodeImageEllipse) // 47
         {
-            OpenCVUtilities.ErodeImageEllipse(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.ErodeImageEllipse(input.BlurSize);
         }
 
         else if (option == OptionEnum.ErodeImage) // 48
         {
-            OpenCVUtilities.ErodeImage(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.ErodeImage(input.BlurSize);
         }
 
         else if (option == OptionEnum.DialateImageRectangle) // 49
         {
-            OpenCVUtilities.DialateImageRectangle(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.DialateImageRectangle(input.BlurSize);
         }
 
         else if (option == OptionEnum.DialateImageCross) // 50
         {
-            OpenCVUtilities.DialateImageCross(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.DialateImageCross(input.BlurSize);
         }
 
         else if (option == OptionEnum.DialateImage) // 51
         {
-            OpenCVUtilities.DialateImage(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.DialateImage(input.BlurSize);
         }
 
         else if (option == OptionEnum.RemoveBackgroundNoise) // 52
         {
-            OpenCVUtilities.RemoveBackgroundNoise(SystemModel.StaticInput.BlurSize);
+            OpenCVUtilities.RemoveBackgroundNoise(input.BlurSize);
         }
 
         else if (option == OptionEnum.GetHorizontalLines) // 53
@@ -382,50 +389,50 @@ public static class SeedNavigator
 
         else if (option == OptionEnum.LowThresholdImage) // 58
         {
-            OpenCVUtilities.LowThresholdImage(SystemModel.StaticInput.Threshold);
+            OpenCVUtilities.LowThresholdImage(input.Threshold);
         }
         else if (option == OptionEnum.HighThresholdImage) // 59
         {
-            OpenCVUtilities.HighThresholdImage(SystemModel.StaticInput.Threshold);
+            OpenCVUtilities.HighThresholdImage(input.Threshold);
         }
 
         else if (option == OptionEnum.DetectEdges) // 60
         {
-            OpenCVUtilities.DetectEdges(SystemModel.StaticInput.Threshold);
+            OpenCVUtilities.DetectEdges(input.Threshold);
         }
 
         else if (option == OptionEnum.TiltImage) // 61
         {
-            OpenCVUtilities.TiltImage(SystemModel.StaticInput.Angle, 
-                SystemModel.StaticInput.Scale);
+            OpenCVUtilities.TiltImage(input.Angle, 
+                input.Scale);
         }
 
-        else if (option == OptionEnum.DrawRandomFilledTriangles) // 62
-        {
-            OpenCVUtilities.DrawRandomFilledTriangles(SystemModel.StaticInput.Itterations,
-                SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2);
-        }
+        //else if (option == OptionEnum.DrawRandomFilledTriangles) // 62
+        //{
+        //    OpenCVUtilities.DrawRandomFilledTriangles(input.Itterations,
+        //        input.X1,
+        //        input.Y1,
+        //        input.X2,
+        //        input.Y2);
+        //}
 
-        else if (option == OptionEnum.DrawRandomHollowTriangles) // 63
-        {
-            OpenCVUtilities.DrawRandomHollowTriangles(SystemModel.StaticInput.Itterations,
-                SystemModel.StaticInput.X1,
-                SystemModel.StaticInput.Y1,
-                SystemModel.StaticInput.X2,
-                SystemModel.StaticInput.Y2);
-        }
+        //else if (option == OptionEnum.DrawRandomHollowTriangles) // 63
+        //{
+        //    OpenCVUtilities.DrawRandomHollowTriangles(input.Itterations,
+        //        input.X1,
+        //        input.Y1,
+        //        input.X2,
+        //        input.Y2);
+        //}
 
         else if (option == OptionEnum.GetContours) // 64
         {
-            OpenCVUtilities.GetContours(SystemModel.StaticInput.Threshold);
+            OpenCVUtilities.GetContours(input.Threshold);
         }
 
         else if (option == OptionEnum.GetConvexHull) // 65
         {
-            OpenCVUtilities.GetConvexHull(SystemModel.StaticInput.Threshold);
+            OpenCVUtilities.GetConvexHull(input.Threshold);
         }
 
         else if (option == OptionEnum.WatershedImage) // 66
@@ -435,7 +442,9 @@ public static class SeedNavigator
 
         else if (option == OptionEnum.GetCorners) // 67
         {
-            OpenCVUtilities.GetCorners((int) SystemModel.StaticInput.MaxCorners);
+            OpenCVUtilities.GetCorners((int) input.MaxCorners);
         }
     }
+
+    #pragma warning restore CS8629
 }

@@ -14,8 +14,8 @@ using namespace std;
 namespace OpenCVUtilities
 {
     // Standard functions.
-    EXTERN_DLL_EXPORT void RawGetImgColor(STRING path);
-    EXTERN_DLL_EXPORT void RawGetImgGrayscale(STRING path);
+    EXTERN_DLL_EXPORT void RawGetColorImg(STRING path);
+    EXTERN_DLL_EXPORT void RawGetGrayscaleImg(STRING path);
     EXTERN_DLL_EXPORT void RawCreateRect(int x, int y, int r, int g, int b);
     EXTERN_DLL_EXPORT void RawWriteToFile(STRING path);
     EXTERN_DLL_EXPORT void RawCreateArrayOnes(int width, int height, double divideBy);

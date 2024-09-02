@@ -2,8 +2,8 @@
 
 public enum OptionEnum
 {
-    GetImgColor = 0,
-    GetImgGrayscale = 1,
+    GetColorImg = 0,
+    GetGrayscaleImg = 1,
     CreateRect = 2,
     WriteToFile = 3,
     CreateArrayOnes = 4,

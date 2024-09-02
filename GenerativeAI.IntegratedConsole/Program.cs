@@ -1,4 +1,6 @@
-﻿namespace GenerativeAI.IntegratedConsole;
+﻿using GenerativeAI.IntegratedConsole.Functionality.Navigator;
+
+namespace GenerativeAI.IntegratedConsole;
 
 public static class Program
 {
@@ -6,7 +8,7 @@ public static class Program
 
     private static void Main(string[] args)
     {
-        Console.WriteLine("======================= Main Commit 19 =======================\n");
+        Console.WriteLine("======================= Main Commit 20 =======================\n");
 
         InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
 
@@ -19,26 +21,27 @@ public static class Program
 
         else
         {
-            if (Validate(SystemModel.StaticInput))
+            InputModel.StandardInput.Add(new JsonInput()
             {
-                int[] vectors = SystemModel.StaticInput.Seed.Split('.').StringToIntArray();
-                SeedNavigator.Navigate(vectors);
-            }
+                Order = 0,
+                FunctionType = OptionEnum.GetColorImg,
+                InputPath = "C:\\Users\\mzheb\\Downloads\\GIlcQIOXMAAWm3D - Copy (2).jpg",
+            });
+
+            InputModel.StandardInput.Add(new JsonInput()
+            {
+                Order = 1,
+                FunctionType = OptionEnum.WriteToFile,
+            });
+
+            SeedNavigator.Navigate();
+
+            string json = JsonConvert.SerializeObject(InputModel.StandardInput);
+
+            Console.WriteLine(json);
+
+            Console.WriteLine("\n======================= Program Ended =======================");
         }
-
-        Console.WriteLine("\n======================= Program Ended =======================");
-    }
-
-    public static bool Validate(JsonInput input)
-    {
-        Regex regex = new Regex(regexValidationExpression);
-
-        if (!regex.IsMatch(input.Seed))
-        {
-            return false;
-        }
-
-        return true;
     }
 
     public static void WriteError(string message)

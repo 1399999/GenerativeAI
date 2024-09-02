@@ -12,13 +12,13 @@ public static class OpenCVUtilities
     // Description: Gets an image from the path specified in color.
     // Paramater (path): The path, which the image is going to be read.
     [DllImport(DllPath)]
-    private static extern void RawGetImgColor([MarshalAs(UnmanagedType.LPStr)] string path);
+    private static extern void RawGetColorImg([MarshalAs(UnmanagedType.LPStr)] string path);
 
     // Function ID: 01.
     // Description: Gets an image from the path specified in grayscale.
     // Paramater (path): The path, which the image is going to be read.
     [DllImport(DllPath)]
-    private static extern void RawGetImgGrayscale([MarshalAs(UnmanagedType.LPStr)] string path);
+    private static extern void RawGetGrayscaleImg([MarshalAs(UnmanagedType.LPStr)] string path);
 
     // Function ID: 02.
     // Description: Creates a rectangle from the specified parameters.
@@ -530,10 +530,10 @@ public static class OpenCVUtilities
         string path = "C:\\Users\\mzheb\\Downloads\\GIlcQIOXMAAWm3D - Copy (2).jpg";
         Random random = new Random();
 
-        RawGetImgColor(path);
+        RawGetColorImg(path);
         RawWriteToFile(UtilityFunctions.GetNextOutputPath());
 
-        RawGetImgGrayscale(path);
+        RawGetGrayscaleImg(path);
         RawWriteToFile(UtilityFunctions.GetNextOutputPath());
 
         RawCreateRect(random.Next(1, 250), random.Next(1, 250), random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
@@ -551,7 +551,7 @@ public static class OpenCVUtilities
         RawCreateRandomArray(random.Next(1, 250), random.Next(1, 250), random.Next(1, 127), random.Next(128, 255));
         RawWriteToFile(UtilityFunctions.GetNextOutputPath());
 
-        RawGetImgColor(path);
+        RawGetColorImg(path);
         RawGetRegionOfInterest(random.Next(1, 250), random.Next(1, 250), random.Next(1, 250), random.Next(1, 250));
         RawWriteToFile(UtilityFunctions.GetNextOutputPath());
 
@@ -572,7 +572,7 @@ public static class OpenCVUtilities
             {
                 InputModel.IsImgColor = true;
 
-                RawGetImgColor(path);
+                RawGetColorImg(path);
             }
 
             else
@@ -590,7 +590,7 @@ public static class OpenCVUtilities
             {
                 InputModel.IsImgColor = false;
 
-                RawGetImgGrayscale(path);
+                RawGetGrayscaleImg(path);
             }
 
             else
@@ -617,7 +617,7 @@ public static class OpenCVUtilities
         {
             if (ValidateOutputPath(path))
             {
-                RawWriteToFile(SystemModel.StaticInput.OutputPath);
+                RawWriteToFile(path);
             }
         }
     }
@@ -1146,27 +1146,27 @@ public static class OpenCVUtilities
         }
     }
 
-    public static void DrawRandomFilledTriangles(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2)
-    {
-        if (SystemModel.Work)
-        {
-            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
-            {
-                RawDrawRandomFilledTriangles((int) itterations, x1, y1, x2, y2);
-            }
-        }
-    }
+    //public static void DrawRandomFilledTriangles(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2)
+    //{
+    //    if (SystemModel.Work)
+    //    {
+    //        if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
+    //        {
+    //            RawDrawRandomFilledTriangles((int) itterations, x1, y1, x2, y2);
+    //        }
+    //    }
+    //}
 
-    public static void DrawRandomHollowTriangles(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2)
-    {
-        if (SystemModel.Work)
-        {
-            if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
-            {
-                RawDrawRandomHollowTriangles((int) itterations, x1, y1, x2, y2);
-            }
-        }
-    }
+    //public static void DrawRandomHollowTriangles(uint itterations, ushort x1, ushort y1, ushort x2, ushort y2)
+    //{
+    //    if (SystemModel.Work)
+    //    {
+    //        if (ValidateDimension(x1) && ValidateDimension(y1) && ValidateDimension(x2) && ValidateDimension(y2))
+    //        {
+    //            RawDrawRandomHollowTriangles((int) itterations, x1, y1, x2, y2);
+    //        }
+    //    }
+    //}
 
     public static void GetContours(byte thresh)
     {
@@ -1225,11 +1225,6 @@ public static class OpenCVUtilities
 
     public static bool ValidateOutputPath(string path)
     {
-        if (path == string.Empty)
-        {
-            SystemModel.StaticInput.OutputPath = UtilityFunctions.GetNextOutputPath();
-        }
-
         if (File.Exists(path)) 
         {
             Program.WriteLineWarning($"The file '{path}' aldreay exists, if you press 'y' the program will override the file.");

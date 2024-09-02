@@ -12,7 +12,7 @@ namespace OpenCVUtilities
     // Function ID: 00.
     // Description: Gets an image from the path specified in color.
     // Paramater (path): The path, which the image is going to be read.
-    EXTERN_DLL_EXPORT void RawGetImgColor(STRING path)
+    EXTERN_DLL_EXPORT void RawGetColorImg(STRING path)
     {
         Mat img;
         img = imread(path, IMREAD_COLOR); // path
@@ -23,7 +23,7 @@ namespace OpenCVUtilities
     // Function ID: 01.
     // Description: Gets an image from the path specified in grayscale.
     // Paramater (path): The path, which the image is going to be read.
-	EXTERN_DLL_EXPORT void RawGetImgGrayscale(STRING path)
+	EXTERN_DLL_EXPORT void RawGetGrayscaleImg(STRING path)
 	{
 		Mat img;
 		img = imread(path, IMREAD_GRAYSCALE); // path

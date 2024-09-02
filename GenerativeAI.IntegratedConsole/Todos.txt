@@ -40,3 +40,6 @@ MC 18:
 MC 19:
 	Implements C++ side of vaildation.
 	Small commit to fix a bug.
+MC 20:
+	Implements JSON with limited hardcoded functionality.
+	Changesa some functions to have better names.
