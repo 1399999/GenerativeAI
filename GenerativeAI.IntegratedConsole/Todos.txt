@@ -42,4 +42,6 @@ MC 19:
 	Small commit to fix a bug.
 MC 20:
 	Implements JSON with limited hardcoded functionality.
-	Changesa some functions to have better names.
+	Changes some functions to have better names.
+MC 21:
+	Implements basic hardcoded ChatGPT functionality.

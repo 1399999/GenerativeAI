@@ -1,6 +1,4 @@
-﻿using GenerativeAI.IntegratedConsole.Functionality.Navigator;
-
-namespace GenerativeAI.IntegratedConsole;
+﻿namespace GenerativeAI.IntegratedConsole;
 
 public static class Program
 {
@@ -8,40 +6,69 @@ public static class Program
 
     private static void Main(string[] args)
     {
-        Console.WriteLine("======================= Main Commit 20 =======================\n");
-
-        InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
-
-        WriteLineTesting("Test beginning");
-
-        if (SystemModel.Testing)
-        {
-            OpenCVUtilities.Test();
-        }
-
-        else
-        {
-            InputModel.StandardInput.Add(new JsonInput()
+        var a = ChatGPTUtilities.EvaluateSingleExprssion(new string[]
             {
-                Order = 0,
-                FunctionType = OptionEnum.GetColorImg,
-                InputPath = "C:\\Users\\mzheb\\Downloads\\GIlcQIOXMAAWm3D - Copy (2).jpg",
-            });
+                "C:\\Users\\mzheb\\Downloads\\Eesti.png",
+            }, OptionEnum.GetColorImg);
 
-            InputModel.StandardInput.Add(new JsonInput()
-            {
-                Order = 1,
-                FunctionType = OptionEnum.WriteToFile,
-            });
+        //Console.WriteLine("======================= Main Commit 21 =======================\n");
 
-            SeedNavigator.Navigate();
+        //InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
 
-            string json = JsonConvert.SerializeObject(InputModel.StandardInput);
+        //WriteLineTesting("Test beginning");
 
-            Console.WriteLine(json);
+        //if (SystemModel.Testing)
+        //{
+        //    OpenCVUtilities.Test();
+        //}
 
-            Console.WriteLine("\n======================= Program Ended =======================");
-        }
+        //else
+        //{
+            //InputModel.StandardInput.Add(new JsonInput()
+            //{
+            //    Order = 0,
+            //    FunctionType = OptionEnum.GetColorImg,
+            //    InputPath = "C:\\Users\\mzheb\\Downloads\\GIlcQIOXMAAWm3D - Copy (2).jpg",
+            //});
+
+            //InputModel.StandardInput.Add(new JsonInput()
+            //{
+            //    Order = 1,
+            //    FunctionType = OptionEnum.WriteToFile,
+            //});
+
+            
+
+            /*
+             * ChatGPT.Evaluate("Import a color image from the directory C:\\[image dir]");
+             * 
+             * Output:
+             * 
+             * =================================
+             * GhatGPT 4o Model 0.0 short answer
+             * =================================
+             * 
+             * Input: "Import a color image from the directory C:\\[image dir]".
+             * ChatGPT promt: "(Yes or no) Does the user want to load a color image from the prompt: "Import a color image from the directory C:\\[image dir]"?".
+             * ChatGPT output: "Yes".
+             * 
+             * Function "GetColorImg" detected.
+             * 
+             * Current JsonInput object:
+             * {
+             *     Order = 0,
+             *     FunctionType = OptionEnum.GetColorImg,
+             *     InputPath = "C:\\[image dir]",
+             */
+
+        //    SeedNavigator.Navigate();
+
+        //    string json = JsonConvert.SerializeObject(InputModel.StandardInput);
+
+        //    Console.WriteLine(json);
+
+        //    Console.WriteLine("\n======================= Program Ended =======================");
+        //}
     }
 
     public static void WriteError(string message)
