@@ -11,7 +11,7 @@ public static class Program
                 "C:\\Users\\mzheb\\Downloads\\Eesti.png",
             }, OptionEnum.GetColorImg);
 
-        //Console.WriteLine("======================= Main Commit 21 =======================\n");
+        //Console.WriteLine("======================= Main Commit 22 =======================\n");
 
         //InputModel.InitialImageNumber = UtilityFunctions.GetCurrentOutputNumber();
 

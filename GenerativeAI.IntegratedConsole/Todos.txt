@@ -45,3 +45,5 @@ MC 20:
 	Changes some functions to have better names.
 MC 21:
 	Implements basic hardcoded ChatGPT functionality.
+MC 22:
+	Implements even more basic hardcoded ChatGPT functionality.
